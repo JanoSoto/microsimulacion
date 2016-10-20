@@ -46,4 +46,6 @@ public abstract class AbstractPE {
     }
     
     public abstract void sendMessage(double lambda);
+    
+    public abstract void receiveMessage(double lambda);
 }
