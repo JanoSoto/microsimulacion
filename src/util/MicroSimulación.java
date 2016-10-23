@@ -5,7 +5,7 @@
  */
 package util;
 
-
+import PEs.Adapter;
 import PEs.Classifier;
 import PEs.GenericPE;
 import PEs.LastPEDataBase;
@@ -30,8 +30,6 @@ public class MicroSimulación {
      */
     public static void main(String[] args) {
         JSimSimulation simulation = null;
-        JSimProcess processor = null;
-        JSimProcess adapter = null;
 
         try{
             simulation = new JSimSimulation("Simulador 1");
@@ -39,6 +37,9 @@ public class MicroSimulación {
             //Creación de los procesadores
             Processor procesador1 = new Processor("Procesador 1", simulation);
             Processor procesador2 = new Processor("Procesador 2", simulation);
+            
+            //Creación del adapter
+            Adapter adapter = new Adapter("Adaptador", simulation,1,5);
              
             //Creación de los PEs
             Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1);
