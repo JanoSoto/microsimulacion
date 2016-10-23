@@ -13,6 +13,7 @@ public class Token {
     //Tipo puede ser: "insripcion", "localizacion", "sos"
     private String tipo;
     private double lambda;
+    //Destino
     private String posting;
     
     public Token(String tipo, double lambda){

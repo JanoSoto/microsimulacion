@@ -17,10 +17,13 @@ import cz.zcu.fav.kiv.jsim.JSimSystem;
 import cz.zcu.fav.kiv.jsim.JSimTooManyHeadsException;
 import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.AbstractPE;
 import util.ProcessingTime;
+import util.RouteTable;
 import util.Token;
 
 /**
@@ -31,13 +34,14 @@ public class Processor extends JSimProcess{
     
     private ProcessingTime pt;
     private JSimHead queue;
-    private ArrayList<AbstractPE> pe_list;
-    //TODO Hay que definir la tabla de ruteo
+    private HashMap<String, AbstractPE> pe_list;
+    private RouteTable routeTable;
 
     public Processor(String name, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException, JSimTooManyHeadsException {
         super(name, simulation);
         this.queue = new JSimHead("requests", simulation);
-        this.pe_list = new ArrayList();
+        this.pe_list = new HashMap<>();
+        this.routeTable = null;
     }
 
     public JSimHead getQueue() {
@@ -48,11 +52,11 @@ public class Processor extends JSimProcess{
         this.queue = queue;
     }
 
-    public ArrayList<AbstractPE> getPe_list() {
+    public HashMap<String, AbstractPE> getPe_list() {
         return pe_list;
     }
 
-    public void setPe_list(ArrayList<AbstractPE> pe_list) {
+    public void setPe_list(HashMap<String, AbstractPE> pe_list) {
         this.pe_list = pe_list;
     }
     
@@ -62,6 +66,14 @@ public class Processor extends JSimProcess{
     
     public double getProcessingTime(double lambda){
         return pt.getProccesingTime(lambda);
+    }
+
+    public RouteTable getRouteTable() {
+        return routeTable;
+    }
+
+    public void setRouteTable(RouteTable routeTable) {
+        this.routeTable = routeTable;
     }
     
     @Override
@@ -77,14 +89,29 @@ public class Processor extends JSimProcess{
                     link = queue.first();
                     Token token = (Token) link.getData();
                     link.out();
+                    
                     //TODO Escribir mensaje que emitirá el simulador
                     message(time + "algun mensaje");
+                    
+                    //Hace hold con una exponencial negativa
                     hold(JSimSystem.negExp(token.getLambda()));
+                    
+                    //Envía el mensaje al siguiente PE. Si no lo encuentra, lo envía al otro procesador.
+                    if(pe_list.containsKey(token.getPosting())){
+                        pe_list.get(token.getPosting()).receiveMessage(token);
+                    }
+                    else{
+                        Processor postingProc = this.routeTable.getRouteTable().get(token.getPosting());
+                        postingProc.getPe_list().get(token.getPosting()).receiveMessage(token);
+                        //Simulación del tiempo de comunicación
+                        hold(1);                        
+                    }
+                    
                 }
             }
         }
         catch(JSimException e){
-            e.printStackTrace();
+            e.printStackTrace(System.out);
             e.printComment();
         }
         

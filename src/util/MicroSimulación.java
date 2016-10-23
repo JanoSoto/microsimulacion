@@ -14,6 +14,7 @@ import PEs.PE4;
 import PEs.PE7;
 import PEs.PECounter;
 import cz.zcu.fav.kiv.jsim.*;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import processors.Processor;
@@ -36,7 +37,7 @@ public class MicroSimulación {
             Processor procesador2 = new Processor("Procesador 2", simulation);
              
             //Creación de los PEs
-            Classifier classifier = new Classifier(0, "Clasificador", "PE1 PE2 PE4", procesador1);
+            Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1);
             GenericPE PE1 = new GenericPE(1, "PE1", "PE3", procesador1);
             GenericPE PE2 = new GenericPE(2, "PE2", "PE3", procesador1);
             GenericPE PE3 = new GenericPE(3, "PE3", "DataBase", procesador1);
@@ -53,7 +54,48 @@ public class MicroSimulación {
             LastPEDataBase PEDataBase = new LastPEDataBase(14, "DataBase", "", procesador2);
             LastPENotification PENotification = new LastPENotification(15, "Notification", "", procesador2);
             
+            //Asignación de los PEs a los procesadores
+            procesador1.getPe_list().put("Classifier", classifier);
+            procesador1.getPe_list().put("PE1", PE1);
+            procesador1.getPe_list().put("PE2", PE2);
+            procesador1.getPe_list().put("PE3", PE3);
+            procesador1.getPe_list().put("PE4", PE4);
+            procesador1.getPe_list().put("PE5", PE5);
+            procesador1.getPe_list().put("PE6", PE6);
+            procesador1.getPe_list().put("PE7", PE7);
             
+            procesador2.getPe_list().put("PE8", PE8);
+            procesador2.getPe_list().put("PE9", PE9);
+            procesador2.getPe_list().put("PE10", PE10);
+            procesador2.getPe_list().put("PE11", PE11);
+            procesador2.getPe_list().put("PE12", PE12);
+            procesador2.getPe_list().put("PE13", PE13);
+            procesador2.getPe_list().put("DataBase", PEDataBase);
+            procesador2.getPe_list().put("Notification", PENotification);
+            
+            //Creación de la tabla de ruteo
+            HashMap<String, Processor> rt = new HashMap<>();
+            rt.put("classifier", procesador1);
+            rt.put("PE1", procesador1);
+            rt.put("PE2", procesador1);
+            rt.put("PE3", procesador1);
+            rt.put("PE4", procesador1);
+            rt.put("PE5", procesador1);
+            rt.put("PE6", procesador1);
+            rt.put("PE7", procesador1);
+            rt.put("PE8", procesador2);
+            rt.put("PE9", procesador2);
+            rt.put("PE10", procesador2);
+            rt.put("PE11", procesador2);
+            rt.put("PE12", procesador2);
+            rt.put("PE13", procesador2);
+            rt.put("PEDataBase", procesador2);
+            rt.put("PENotification", procesador2);
+            
+            RouteTable routeTable = new RouteTable(rt);
+            
+            procesador1.setRouteTable(routeTable);
+            procesador2.setRouteTable(routeTable);
             
             try{
                 simulation = new JSimSimulation("First simulation");
