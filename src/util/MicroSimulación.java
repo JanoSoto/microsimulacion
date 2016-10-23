@@ -29,8 +29,12 @@ public class MicroSimulación {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        JSimSimulation simulation = null;
+        JSimProcess processor = null;
+        JSimProcess adapter = null;
+
         try{
-            JSimSimulation simulation = null;
+            simulation = new JSimSimulation("Simulador 1");
             
             //Creación de los procesadores
             Processor procesador1 = new Processor("Procesador 1", simulation);
@@ -97,20 +101,13 @@ public class MicroSimulación {
             procesador1.setRouteTable(routeTable);
             procesador2.setRouteTable(routeTable);
             
-            try{
-                simulation = new JSimSimulation("First simulation");
-            }
-            catch (JSimException e){
-                e.printStackTrace();
-                e.printComment(System.err);
-            }
-            finally{
-                simulation.shutdown();
-            }
         } 
-        catch (JSimSimulationAlreadyTerminatedException | JSimInvalidParametersException | JSimTooManyProcessesException | JSimTooManyHeadsException ex){
-            Logger.getLogger(MicroSimulación.class.getName()).log(Level.SEVERE, null, ex);
+        catch (JSimException e){
+            e.printStackTrace();
+            e.printComment(System.err);
+        }
+        finally{
+            simulation.shutdown();
         }
     }
-    
 }
