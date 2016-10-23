@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package micro.simulación;
+package PEs;
+
+import processors.Processor;
+import util.AbstractPE;
+import util.Token;
 
 /**
  *
@@ -11,17 +15,17 @@ package micro.simulación;
  */
 public class LastPEDataBase extends AbstractPE{
 
-    public LastPEDataBase(int id, String nombre, String next_pe) {
-        super(id, nombre, next_pe);
+    public LastPEDataBase(int id, String nombre, String next_pe, Processor processor) {
+        super(id, nombre, next_pe, processor);
     }
 
     @Override
-    public void sendMessage(double lambda) {
+    public void sendMessage(Token token) {
         
     }
 
     @Override
-    public void receiveMessage(double lambda) {
+    public void receiveMessage(Token token) {
         //TODO Función hold con el valor de guardar en disco
     }
     

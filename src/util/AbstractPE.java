@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package micro.simulación;
+package util;
+
+import cz.zcu.fav.kiv.jsim.JSimLink;
+import cz.zcu.fav.kiv.jsim.JSimSecurityException;
+import processors.Processor;
 
 /**
  *
@@ -14,11 +18,13 @@ public abstract class AbstractPE {
     private int id;
     private String nombre;
     private String next_pe;
+    private Processor processor;
     
-    public AbstractPE(int id, String nombre, String next_pe){
+    public AbstractPE(int id, String nombre, String next_pe, Processor processor){
         this.id = id;
         this.nombre = nombre;
         this.next_pe = next_pe;
+        this.processor = processor;
     }
 
     public int getId() {
@@ -44,8 +50,22 @@ public abstract class AbstractPE {
     public void setNext_pe(String next_pe) {
         this.next_pe = next_pe;
     }
+
+    public Processor getProcessor() {
+        return processor;
+    }
+
+    public void setProcessor(Processor processor) {
+        this.processor = processor;
+    }
     
-    public abstract void sendMessage(double lambda);
+    public void sendMessage(Token token) throws JSimSecurityException{
+        token.setPosting(this.next_pe);
+        JSimLink link = new JSimLink(token);
+        link.into(this.processor.getQueue());
+    }
     
-    public abstract void receiveMessage(double lambda);
+    public void receiveMessage(Token token) throws JSimSecurityException{
+        sendMessage(token);
+    }
 }
