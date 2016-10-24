@@ -14,13 +14,13 @@ import processors.Processor;
  * @author JAno
  */
 public abstract class AbstractPE {
-    
+
     private int id;
     private String nombre;
     private String next_pe;
     private Processor processor;
-    
-    public AbstractPE(int id, String nombre, String next_pe, Processor processor){
+
+    public AbstractPE(int id, String nombre, String next_pe, Processor processor) {
         this.id = id;
         this.nombre = nombre;
         this.next_pe = next_pe;
@@ -58,14 +58,14 @@ public abstract class AbstractPE {
     public void setProcessor(Processor processor) {
         this.processor = processor;
     }
-    
-    public void sendMessage(Token token) throws JSimSecurityException{
+
+    public void sendMessage(Token token) throws JSimSecurityException {
         token.setPosting(this.next_pe);
         JSimLink link = new JSimLink(token);
         link.into(this.processor.getQueue());
     }
-    
-    public void receiveMessage(Token token) throws JSimSecurityException{
+
+    public void receiveMessage(Token token) throws JSimSecurityException {
         sendMessage(token);
     }
 }

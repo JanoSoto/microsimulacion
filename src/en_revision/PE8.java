@@ -13,7 +13,7 @@ import util.Token;
  *
  * @author JAno
  */
-public class PE8 extends AbstractPE{
+public class PE8 extends AbstractPE {
 
     private int counter;
 
@@ -39,5 +39,5 @@ public class PE8 extends AbstractPE{
         //Recibe desde PE8
         counter++;
     }
-    
+
 }

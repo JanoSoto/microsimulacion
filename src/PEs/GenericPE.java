@@ -13,10 +13,10 @@ import util.Token;
  *
  * @author JAno
  */
-public class GenericPE extends AbstractPE{
-    
+public class GenericPE extends AbstractPE {
+
     public GenericPE(int id, String nombre, String next_pe, Processor processor) {
         super(id, nombre, next_pe, processor);
     }
-    
+
 }

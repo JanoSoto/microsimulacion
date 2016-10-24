@@ -34,19 +34,19 @@ public class MicroSimulación {
     public static void main(String[] args) {
         JSimSimulation simulation = null;
 
-        try{
+        try {
             simulation = new JSimSimulation("Simulador 1");
-            
+
             //Creación de los procesadores
             Processor procesador1 = new Processor("Procesador 1", simulation);
             Processor procesador2 = new Processor("Procesador 2", simulation);
-            
+
             //Creación del clasifier
             Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1);
 
             //Creación del adapter
             Adapter adapter = new Adapter("Adaptador", simulation, classifier);
-             
+
             //Creación de los PEs
             GenericPE PE1 = new GenericPE(1, "PE1", "PE3", procesador1);
             GenericPE PE2 = new GenericPE(2, "PE2", "PE3", procesador1);
@@ -63,7 +63,7 @@ public class MicroSimulación {
             GenericPE PE13 = new GenericPE(13, "PE13", "Notification", procesador2);
             LastPEDataBase PEDataBase = new LastPEDataBase(14, "DataBase", "", procesador2);
             LastPENotification PENotification = new LastPENotification(15, "Notification", "", procesador2);
-            
+
             //Asignación de los PEs a los procesadores
             procesador1.getPe_list().put("Classifier", classifier);
             procesador1.getPe_list().put("PE1", PE1);
@@ -73,7 +73,7 @@ public class MicroSimulación {
             procesador1.getPe_list().put("PE5", PE5);
             procesador1.getPe_list().put("PE6", PE6);
             procesador1.getPe_list().put("PE7", PE7);
-            
+
             procesador2.getPe_list().put("PE8", PE8);
             procesador2.getPe_list().put("PE9", PE9);
             procesador2.getPe_list().put("PE10", PE10);
@@ -82,7 +82,7 @@ public class MicroSimulación {
             procesador2.getPe_list().put("PE13", PE13);
             procesador2.getPe_list().put("DataBase", PEDataBase);
             procesador2.getPe_list().put("Notification", PENotification);
-            
+
             //Creación de la tabla de ruteo
             HashMap<String, Processor> rt = new HashMap<>();
             rt.put("classifier", procesador1);
@@ -101,30 +101,31 @@ public class MicroSimulación {
             rt.put("PE13", procesador2);
             rt.put("PEDataBase", procesador2);
             rt.put("PENotification", procesador2);
-            
+
             RouteTable routeTable = new RouteTable(rt);
-            
+
             procesador1.setRouteTable(routeTable);
             procesador2.setRouteTable(routeTable);
-            
+
             //active procesor
             procesador1.activate(0.5);
             //
             // main simulation loop
             System.out.println("Some simulation steps...");
-            
-            while (simulation.step() == true)
-            {
-                if (simulation.getCurrentTime() >= SIMULATION_FINAL_TIME)
+
+            while (simulation.step() == true) {
+                
+                // borrar esta linea
+                System.out.println("entre!");
+                if (simulation.getCurrentTime() >= SIMULATION_FINAL_TIME) {
                     break;
+                }
             }
-            
-        } 
-        catch (JSimException e){
+
+        } catch (JSimException e) {
             e.printStackTrace();
             e.printComment(System.err);
-        }
-        finally{
+        } finally {
             simulation.shutdown();
         }
     }

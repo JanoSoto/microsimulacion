@@ -10,5 +10,6 @@ package util;
  * @author JAno
  */
 public interface ProcessingTime {
+
     public double getProccesingTime(double lambda);
 }

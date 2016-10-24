@@ -13,10 +13,10 @@ import util.Token;
  *
  * @author JAno
  */
-public class LastPENotification extends AbstractPE{
-    
+public class LastPENotification extends AbstractPE {
+
     private int counter;
-    
+
     public LastPENotification(int id, String nombre, String next_pe, Processor processor) {
         super(id, nombre, next_pe, processor);
         this.counter = 0;
@@ -29,15 +29,15 @@ public class LastPENotification extends AbstractPE{
     public void setCounter(int counter) {
         this.counter = counter;
     }
-    
+
     @Override
     public void sendMessage(Token token) {
-        
+
     }
 
     @Override
     public void receiveMessage(Token token) {
         this.counter++;
     }
-    
+
 }

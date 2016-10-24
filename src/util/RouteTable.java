@@ -13,13 +13,14 @@ import processors.Processor;
  * @author JAno
  */
 public class RouteTable {
+
     public HashMap<String, Processor> routeTable;
-    
-    public RouteTable(HashMap<String, Processor> routeTable){
+
+    public RouteTable(HashMap<String, Processor> routeTable) {
         this.routeTable = routeTable;
     }
-    
-    public RouteTable(){
+
+    public RouteTable() {
         this.routeTable = null;
     }
 
@@ -30,5 +31,5 @@ public class RouteTable {
     public void setRouteTable(HashMap<String, Processor> routeTable) {
         this.routeTable = routeTable;
     }
-    
+
 }

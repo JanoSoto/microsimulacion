@@ -10,12 +10,13 @@ package util;
  * @author JAno
  */
 public abstract class AbstractProcessor {
+
     private int id;
     private String nombre;
     private ProcessingTime pt;
     //TODO Hay que definir la tabla de ruteo
-    
-    public AbstractProcessor(int id, String nombre){
+
+    public AbstractProcessor(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
@@ -35,12 +36,12 @@ public abstract class AbstractProcessor {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    public void setProcessingTime(ProcessingTime pt){
+
+    public void setProcessingTime(ProcessingTime pt) {
         this.pt = pt;
     }
-    
-    public double getProcessingTime(double lambda){
+
+    public double getProcessingTime(double lambda) {
         return pt.getProccesingTime(lambda);
     }
 }

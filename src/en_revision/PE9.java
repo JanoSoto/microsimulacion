@@ -13,7 +13,7 @@ import util.Token;
  *
  * @author JAno
  */
-public class PE9 extends AbstractPE{
+public class PE9 extends AbstractPE {
 
     public PE9(int id, String nombre, String next_pe, Processor processor) {
         super(id, nombre, next_pe, processor);
@@ -28,5 +28,5 @@ public class PE9 extends AbstractPE{
     public void receiveMessage(Token token) {
         //Recibe mensaje desde PE5, PE6, PE7 o PE8
     }
-    
+
 }

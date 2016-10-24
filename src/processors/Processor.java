@@ -30,8 +30,8 @@ import util.Token;
  *
  * @author JAno
  */
-public class Processor extends JSimProcess{
-    
+public class Processor extends JSimProcess {
+
     private ProcessingTime pt;
     private JSimHead queue;
     private HashMap<String, AbstractPE> pe_list;
@@ -59,12 +59,12 @@ public class Processor extends JSimProcess{
     public void setPe_list(HashMap<String, AbstractPE> pe_list) {
         this.pe_list = pe_list;
     }
-    
-    public void setProcessingTime(ProcessingTime pt){
+
+    public void setProcessingTime(ProcessingTime pt) {
         this.pt = pt;
     }
-    
-    public double getProcessingTime(double lambda){
+
+    public double getProcessingTime(double lambda) {
         return pt.getProccesingTime(lambda);
     }
 
@@ -75,45 +75,43 @@ public class Processor extends JSimProcess{
     public void setRouteTable(RouteTable routeTable) {
         this.routeTable = routeTable;
     }
-    
+
     @Override
-    protected void life(){
-        try{
+    protected void life() {
+        try {
             JSimLink link;
             double time;
 
-            while(true){
+            while (true) {
                 time = this.myParent.getCurrentTime();
 
-                if(!queue.empty()){
+                if (!queue.empty()) {
                     link = queue.first();
                     Token token = (Token) link.getData();
                     link.out();
-                    
+
                     //TODO Escribir mensaje que emitirá el simulador
                     message(time + "algun mensaje");
-                    
+
                     //Hace hold con una exponencial negativa
                     hold(JSimSystem.negExp(token.getLambda()));
-                    
+
                     //Envía el mensaje al siguiente PE. Si no lo encuentra, lo envía al otro procesador.
-                    if(pe_list.containsKey(token.getPosting())){
+                    if (pe_list.containsKey(token.getPosting())) {
                         pe_list.get(token.getPosting()).receiveMessage(token);
-                    }
-                    else{
+                    } else {
                         Processor postingProc = this.routeTable.getRouteTable().get(token.getPosting());
                         postingProc.getPe_list().get(token.getPosting()).receiveMessage(token);
                         //Simulación del tiempo de comunicación
-                        hold(1);                        
+                        hold(1);
                     }
-                    
+
                 }
             }
-        }
-        catch(JSimException e){
+        } catch (JSimException e) {
             e.printStackTrace(System.out);
             e.printComment();
         }
-        
+
     }
 }

@@ -13,14 +13,14 @@ import util.Token;
  *
  * @author JAno
  */
-public class PECounter extends AbstractPE{
-    
+public class PECounter extends AbstractPE {
+
     private int counter;
 
     public PECounter(int id, String nombre, String next_pe, Processor processor) {
         super(id, nombre, next_pe, processor);
     }
-    
+
     public int getCounter() {
         return counter;
     }
@@ -38,7 +38,7 @@ public class PECounter extends AbstractPE{
     public void receiveMessage(Token token) {
         //Recibe desde PE4
         counter++;
-        
+
     }
-    
+
 }

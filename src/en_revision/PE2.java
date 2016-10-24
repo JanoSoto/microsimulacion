@@ -13,7 +13,7 @@ import util.Token;
  *
  * @author JAno
  */
-public class PE2 extends AbstractPE{
+public class PE2 extends AbstractPE {
 
     public PE2(int id, String nombre, String next_pe, Processor processor) {
         super(id, nombre, next_pe, processor);
@@ -21,12 +21,12 @@ public class PE2 extends AbstractPE{
 
     @Override
     public void sendMessage(Token token) {
-        
+
     }
 
     @Override
     public void receiveMessage(Token token) {
-        
+
     }
-    
+
 }

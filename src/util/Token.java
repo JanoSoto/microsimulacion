@@ -10,13 +10,14 @@ package util;
  * @author JAno
  */
 public class Token {
+
     //Tipo puede ser: "insripcion", "localizacion", "sos"
     private String tipo;
     private double lambda;
     //Destino
     private String posting;
-    
-    public Token(String tipo, double lambda){
+
+    public Token(String tipo, double lambda) {
         this.tipo = tipo;
         this.lambda = lambda;
     }
@@ -44,5 +45,5 @@ public class Token {
     public void setPosting(String posting) {
         this.posting = posting;
     }
-        
+
 }
