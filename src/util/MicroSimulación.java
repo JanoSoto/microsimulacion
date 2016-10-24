@@ -25,6 +25,9 @@ import processors.Processor;
  */
 public class MicroSimulación {
 
+    public static final int NUMBER_OF_PROCESSES = 1;
+    public static final double SIMULATION_FINAL_TIME = 0.3;
+
     /**
      * @param args the command line arguments
      */
@@ -38,11 +41,13 @@ public class MicroSimulación {
             Processor procesador1 = new Processor("Procesador 1", simulation);
             Processor procesador2 = new Processor("Procesador 2", simulation);
             
+            //Creación del clasifier
+            Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1);
+
             //Creación del adapter
-            Adapter adapter = new Adapter("Adaptador", simulation,1,5);
+            Adapter adapter = new Adapter("Adaptador", simulation, classifier);
              
             //Creación de los PEs
-            Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1);
             GenericPE PE1 = new GenericPE(1, "PE1", "PE3", procesador1);
             GenericPE PE2 = new GenericPE(2, "PE2", "PE3", procesador1);
             GenericPE PE3 = new GenericPE(3, "PE3", "DataBase", procesador1);
@@ -101,6 +106,18 @@ public class MicroSimulación {
             
             procesador1.setRouteTable(routeTable);
             procesador2.setRouteTable(routeTable);
+            
+            //active procesor
+            procesador1.activate(0.5);
+            //
+            // main simulation loop
+            System.out.println("Some simulation steps...");
+            
+            while (simulation.step() == true)
+            {
+                if (simulation.getCurrentTime() >= SIMULATION_FINAL_TIME)
+                    break;
+            }
             
         } 
         catch (JSimException e){
