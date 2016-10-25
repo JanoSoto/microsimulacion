@@ -104,8 +104,8 @@ public class MicroSimulación {
             rt.put("PE11", procesador2);
             rt.put("PE12", procesador2);
             rt.put("PE13", procesador2);
-            rt.put("PEDataBase", procesador2);
-            rt.put("PENotification", procesador2);
+            rt.put("DataBase", procesador2);
+            rt.put("Notification", procesador2);
 
             RouteTable routeTable = new RouteTable(rt);
 
@@ -118,6 +118,10 @@ public class MicroSimulación {
             //active procesor
             System.out.println("MAIN ACTIVA EL ADAPTER");
             adapter.activateNow();
+            System.out.println("ACTIVANDO EL PROCESADOR 1");
+            procesador1.activateNow();
+            System.out.println("ACTIVANDO EL PROCESADOR 2");
+            procesador2.activateNow();
             
             while(simulation.step());
             
@@ -129,4 +133,5 @@ public class MicroSimulación {
             simulation.shutdown();
         }
     }
+
 }

@@ -58,11 +58,7 @@ public abstract class AbstractPE extends JSimProcess{
     }
 
     public void receiveMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
-        sendMessage(token);
-        /*
-        this.token = token;
-        this.life();
-        */
+        sendMessage(token);     
     }
     
     @Override

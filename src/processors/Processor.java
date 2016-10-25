@@ -37,7 +37,7 @@ public class Processor extends JSimProcess {
     public Processor(String name, JSimSimulation simulation, JSimMessageBox box) 
             throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException, JSimTooManyHeadsException {
         super(name, simulation);
-        this.queue = new JSimHead("requests", simulation);
+        this.queue = new JSimHead("requests_"+name, simulation);
         this.pe_list = new HashMap<>();
         this.routeTable = null;
         this.box = box;
@@ -82,6 +82,7 @@ public class Processor extends JSimProcess {
             JSimLink link;
             double time;
             message("SOY UN PROCESADOR " + this.getName() + " Y ESTOY VIVO");
+            int count = 0;
             while (true) {
                 time = this.myParent.getCurrentTime();
                 
@@ -92,31 +93,45 @@ public class Processor extends JSimProcess {
 
                     //TODO Escribir mensaje que emitirá el simulador
                     
-                    //Hace hold con una exponencial negativa
+                    //Hace hold con una exponencial negativa para simular el tiempo de procesamiento
                     hold(JSimSystem.negExp(token.getLambda()));
 
                     //Envía el mensaje al siguiente PE. Si no lo encuentra, lo envía al otro procesador.
                     if (pe_list.containsKey(token.getPosting())) {
-                        message("-- PROCESADOR: Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
+                        System.out.println("-- " + this.getName() + ": Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
                         pe_list.get(token.getPosting()).receiveMessage(token);
                         hold(0.1);
-                    } else {
-                        message("-- Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
+                    } 
+                    else {
+                        System.out.println("-- " + this.getName() + ": Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
                         Processor postingProc = this.routeTable.getRouteTable().get(token.getPosting());
+                        if(postingProc.isIdle()){
+                            System.out.println(this.getName() + " DESPIERTA AL " + postingProc.getName());
+                            postingProc.activateNow();
+                        }
                         postingProc.getPe_list().get(token.getPosting()).receiveMessage(token);
                         //Simulación del tiempo de comunicación
                         hold(1);
                     }
-
+                    count = 0;
                 }
                 else{
-                    message("LA COLA ESTA VACIA");
+                    /*
+                    message(this.getName() + ": LA COLA ESTA VACIA");
                     hold(0.1);
+                    */
+                    if(count < 5){                        
+                        message(this.getName() + ": LA COLA ESTA VACIA");
+                        count++;
+                    }
+                    else{
+                        message("EL " + this.getName() + " SE DUERME");
+                        this.passivate();
+                    }
                 }
             }
         } 
         catch (JSimException e) {
-            System.out.println("NO SE HA DESPERTADO AL PROCESO");
             e.printStackTrace(System.out);
             e.printComment();
         }

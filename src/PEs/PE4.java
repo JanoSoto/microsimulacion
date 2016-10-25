@@ -40,12 +40,11 @@ public class PE4 extends AbstractPE {
     public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
         //int random_number = (int) this.random.nextDouble()*2;
         double random_number = uniform(0.5, 3.5);
-        //System.out.println("-*- N° aleatorio generado en el PE: "+random_number +". Su redondeo es: " + (int) Math.round(random_number));
         switch((int) Math.round(random_number)){
             //Caso de incendio
             case 1:{
                 //this.PE5.receiveMessage(token);
-                System.out.println("** Enviando mensaje desde PE 4 hacia PE5");
+                System.out.println("** Enviando mensaje desde PE4 hacia PE5");
                 token.setSender(this.getName());
                 token.setPosting("PE5");
                 JSimLink link = new JSimLink(token);
@@ -55,7 +54,7 @@ public class PE4 extends AbstractPE {
             //Caso de robo
             case 2:{
                 //this.PE6.receiveMessage(token);
-                System.out.println("** Enviando mensaje desde PE 4 hacia PE6");
+                System.out.println("** Enviando mensaje desde PE4 hacia PE6");
                 token.setSender(this.getName());
                 token.setPosting("PE6");
                 JSimLink link = new JSimLink(token);
@@ -65,7 +64,7 @@ public class PE4 extends AbstractPE {
             //Caso de accidente
             case 3:{
                 //this.PE7.receiveMessage(token);
-                System.out.println("** Enviando mensaje desde PE 4 hacia PE7");
+                System.out.println("** Enviando mensaje desde PE4 hacia PE7");
                 token.setSender(this.getName());
                 token.setPosting("PE7");
                 JSimLink link = new JSimLink(token);

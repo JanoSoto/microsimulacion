@@ -52,7 +52,7 @@ public class PE7 extends AbstractPE {
             //Notificar
             case 1:{
                 //this.PE9.receiveMessage(token);
-                System.out.println("** Enviando mensaje desde el PE7 hacia PE9");
+                System.out.println("** Enviando mensaje desde PE7 hacia PE9");
                 token.setSender(this.getName());
                 token.setPosting("PE9");
                 JSimLink link = new JSimLink(token);
@@ -62,7 +62,7 @@ public class PE7 extends AbstractPE {
             //Llamar a emergencias
             case 2:{
                 //this.PE8.receiveMessage(token);
-                System.out.println("** Enviando mensaje desde el PE7 hacia PE8");
+                System.out.println("** Enviando mensaje desde PE7 hacia PE8");
                 token.setSender(this.getName());
                 token.setPosting("PE8");
                 JSimLink link = new JSimLink(token);

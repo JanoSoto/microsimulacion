@@ -59,19 +59,17 @@ public class Adapter extends JSimProcess {
     protected void life() {
         message("SOY EL ADAPTER Y ESTOY VIVO");
         try {
-            message("ACTIVANDO EL PROCESADOR 1");
-            this.procesador1.activateNow();
-            message("ACTIVANDO EL PROCESADOR 2");
-            this.procesador2.activateNow();
             double time;
             double random;
             
-            while (true) {
+            int i = 0, limite = 500;
+            
+            while (true && i < limite) {
                 time = this.myParent.getCurrentTime();
                 //Token token = new Token(this.getRdm(), 0.1);
                 random = uniform(0.0, 1.0);
                 Token token;
-                double lambda = Math.abs(gauss(0, 0.2));
+                double lambda;
                 //Inscripción
                 if(random <= 0.001){
                     token = new Token(this.texto[0], Math.abs(gauss(0, 0.5)));
@@ -87,8 +85,7 @@ public class Adapter extends JSimProcess {
                 }
                
                 this.clasificador.receiveMessage(token);
-                //message("-- Soy el adapter y envio este mensaje al clasificador: "+token.getTipo());
-                hold(0.1);
+                //message("-- Soy el adapter y envio este mensaje al clasificador: "+token.getTipo());                
                 
                 /*
                 this.sendMessage(token);
@@ -96,8 +93,13 @@ public class Adapter extends JSimProcess {
                 message("-- Soy el adapter y envio este mensaje al clasificador: "+token.getTipo());
                 hold(1);
                 */
+                
+                i++;
+                
+                hold(0.1);
             }
-        } catch (JSimException e) {
+        } 
+        catch (JSimException e) {
             e.printStackTrace(System.out);
             e.printComment();
         }

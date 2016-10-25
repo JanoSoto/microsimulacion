@@ -37,7 +37,7 @@ public class Classifier extends AbstractPE {
         switch (token.getTipo()) {
             case "inscripcion": {
                 //Enviar al PE1
-                System.out.println("Envio un mensaje al PE 1");
+                System.out.println("Envio un mensaje al PE1");
                 //this.PE1.receiveMessage(token);
                 token.setSender(this.getName());
                 token.setPosting("PE1");
@@ -47,7 +47,7 @@ public class Classifier extends AbstractPE {
             }
             case "localizacion": {
                 //Enviar al PE2
-                System.out.println("Envio un mensaje al PE 2");
+                System.out.println("Envio un mensaje al PE2");
                 //this.PE2.receiveMessage(token);
                 token.setSender(this.getName());
                 token.setPosting("PE2");
@@ -57,7 +57,7 @@ public class Classifier extends AbstractPE {
             }
             case "sos": {
                 //Enviar al PE4
-                System.out.println("Envio un mensaje al PE 4");
+                System.out.println("Envio un mensaje al PE4");
                 //this.PE4.receiveMessage(token);
                 token.setSender(this.getName());
                 token.setPosting("PE4");
