@@ -45,27 +45,27 @@ public class MicroSimulación {
             Processor procesador2 = new Processor("Procesador 2", simulation, box);
 
             //Creación de los PEs
-            GenericPE PE1 = new GenericPE(1, "PE1", "PE3", procesador1);
-            GenericPE PE2 = new GenericPE(2, "PE2", "PE3", procesador1);
-            GenericPE PE3 = new GenericPE(3, "PE3", "DataBase", procesador1);
-            PECounter PE5 = new PECounter(5, "PE5", "PE9", procesador1);
-            PECounter PE6 = new PECounter(6, "PE6", "PE9", procesador1);
-            PECounter PE8 = new PECounter(8, "PE8", "PE9", procesador2);
-            GenericPE PE9 = new GenericPE(9, "PE9", "PE10", procesador2);
-            PE7 PE7 = new PE7(7, "PE7", "PE8 PE9", procesador1, PE9, PE8);
-            PE4 PE4 = new PE4(4, "PE4", "PE5 PE6 P7", procesador1, PE5, PE6, PE7);
-            GenericPE PE10 = new GenericPE(10, "PE10", "PE11", procesador2);
-            GenericPE PE11 = new GenericPE(11, "PE11", "PE12", procesador2);
-            GenericPE PE12 = new GenericPE(12, "PE12", "PE13", procesador2);
-            GenericPE PE13 = new GenericPE(13, "PE13", "Notification", procesador2);
-            LastPEDataBase PEDataBase = new LastPEDataBase(14, "DataBase", "", procesador2);
-            LastPENotification PENotification = new LastPENotification(15, "Notification", "", procesador2);
+            GenericPE PE1 = new GenericPE(1, "PE1", "PE3", procesador1, simulation);
+            GenericPE PE2 = new GenericPE(2, "PE2", "PE3", procesador1, simulation);
+            GenericPE PE3 = new GenericPE(3, "PE3", "DataBase", procesador1, simulation);
+            PECounter PE5 = new PECounter(5, "PE5", "PE9", procesador1, simulation);
+            PECounter PE6 = new PECounter(6, "PE6", "PE9", procesador1, simulation);
+            PECounter PE8 = new PECounter(8, "PE8", "PE9", procesador2, simulation);
+            GenericPE PE9 = new GenericPE(9, "PE9", "PE10", procesador2, simulation);
+            PE7 PE7 = new PE7(7, "PE7", "PE8 PE9", procesador1, PE9, PE8, simulation);
+            PE4 PE4 = new PE4(4, "PE4", "PE5 PE6 P7", procesador1, PE5, PE6, PE7, simulation);
+            GenericPE PE10 = new GenericPE(10, "PE10", "PE11", procesador2, simulation);
+            GenericPE PE11 = new GenericPE(11, "PE11", "PE12", procesador2, simulation);
+            GenericPE PE12 = new GenericPE(12, "PE12", "PE13", procesador2, simulation);
+            GenericPE PE13 = new GenericPE(13, "PE13", "Notification", procesador2, simulation);
+            LastPEDataBase PEDataBase = new LastPEDataBase(14, "DataBase", "", procesador2, simulation);
+            LastPENotification PENotification = new LastPENotification(15, "Notification", "", procesador2, simulation);
             
             //Creación del clasifier
-            Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1, PE1, PE2, PE4);
+            Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1, PE1, PE2, PE4, simulation);
 
             //Creación del adapter
-            Adapter adapter = new Adapter("Adaptador", simulation, classifier, box);
+            Adapter adapter = new Adapter("Adaptador", simulation, classifier, box, procesador1, procesador2);
             
             //Asignación de los PEs a los procesadores
             procesador1.getPe_list().put("Classifier", classifier);
@@ -114,12 +114,10 @@ public class MicroSimulación {
             System.out.println("Inicio de la simulacion");
             
             //active procesor
-            adapter.activate(0.0);
-            procesador1.activate(0.0);
-            procesador2.activate(0.0);
-            //
-
-            while (simulation.step());
+            System.out.println("MAIN ACTIVA EL ADAPTER");
+            adapter.activateNow();
+            
+            while(simulation.step());
             
 
         } catch (JSimException e) {

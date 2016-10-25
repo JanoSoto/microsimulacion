@@ -5,6 +5,10 @@
  */
 package PEs;
 
+import cz.zcu.fav.kiv.jsim.JSimInvalidParametersException;
+import cz.zcu.fav.kiv.jsim.JSimSimulation;
+import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
+import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import processors.Processor;
 import util.AbstractPE;
 import util.Token;
@@ -17,8 +21,8 @@ public class LastPENotification extends AbstractPE {
 
     private int counter;
 
-    public LastPENotification(int id, String nombre, String next_pe, Processor processor) {
-        super(id, nombre, next_pe, processor);
+    public LastPENotification(int id, String nombre, String next_pe, Processor processor, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
+        super(nombre, simulation, next_pe, processor);
         this.counter = 0;
     }
 

@@ -5,7 +5,11 @@
  */
 package PEs;
 
+import cz.zcu.fav.kiv.jsim.JSimInvalidParametersException;
 import cz.zcu.fav.kiv.jsim.JSimSecurityException;
+import cz.zcu.fav.kiv.jsim.JSimSimulation;
+import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
+import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import java.util.Random;
 import processors.Processor;
 import util.AbstractPE;
@@ -22,8 +26,8 @@ public class PE7 extends AbstractPE {
     private final PECounter PE8;
     private Random random;
 
-    public PE7(int id, String nombre, String next_pe, Processor processor, GenericPE PE9, PECounter PE8) {
-        super(id, nombre, next_pe, processor);
+    public PE7(int id, String nombre, String next_pe, Processor processor, GenericPE PE9, PECounter PE8, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
+        super(nombre, simulation, next_pe, processor);
         this.PE8 = PE8;
         this.PE9 = PE9;
     }
@@ -37,7 +41,7 @@ public class PE7 extends AbstractPE {
     }
 
     @Override
-    public void sendMessage(Token token) throws JSimSecurityException {
+    public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
         int random_number = (int) this.random.nextDouble()*2;
         switch(random_number){
             //Notificar
@@ -52,6 +56,7 @@ public class PE7 extends AbstractPE {
             }
             
         }
+        
     }
 
     @Override

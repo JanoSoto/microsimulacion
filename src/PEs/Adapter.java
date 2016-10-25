@@ -10,6 +10,7 @@ import static cz.zcu.fav.kiv.jsim.JSimSystem.gauss;
 import static cz.zcu.fav.kiv.jsim.JSimSystem.uniform;
 import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
 import java.util.Random;
+import processors.Processor;
 import util.ProcessingTime;
 import util.Token;
 
@@ -25,8 +26,9 @@ public class Adapter extends JSimProcess {
     private String name;
     private Random rdm;
     private JSimMessageBox box;
+    private Processor procesador1, procesador2;
 
-    public Adapter(String name, JSimSimulation sim, Classifier clasificador, JSimMessageBox box)
+    public Adapter(String name, JSimSimulation sim, Classifier clasificador, JSimMessageBox box, Processor procesador1, Processor procesador2)
             throws JSimSimulationAlreadyTerminatedException,
             JSimInvalidParametersException,
             JSimTooManyProcessesException {
@@ -35,6 +37,8 @@ public class Adapter extends JSimProcess {
         this.clasificador = clasificador;
         this.rdm = new Random();
         this.box = box;
+        this.procesador1 = procesador1;
+        this.procesador2 = procesador2;
     }
 
     public String getRdm() {
@@ -49,6 +53,10 @@ public class Adapter extends JSimProcess {
     protected void life() {
         message("SOY EL ADAPTER Y ESTOY VIVO");
         try {
+            message("ACTIVANDO EL PROCESADOR 1");
+            this.procesador1.activateNow();
+            message("ACTIVANDO EL PROCESADOR 2");
+            this.procesador2.activateNow();
             double time;
             double random;
             
@@ -74,6 +82,7 @@ public class Adapter extends JSimProcess {
                
                 this.clasificador.receiveMessage(token);
                 //message("-- Soy el adapter y envio este mensaje al clasificador: "+token.getTipo());
+                hold(0.1);
             }
         } catch (JSimException e) {
             e.printStackTrace(System.out);

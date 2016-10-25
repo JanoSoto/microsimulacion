@@ -5,42 +5,28 @@
  */
 package util;
 
+import cz.zcu.fav.kiv.jsim.JSimInvalidParametersException;
 import cz.zcu.fav.kiv.jsim.JSimLink;
+import cz.zcu.fav.kiv.jsim.JSimProcess;
 import cz.zcu.fav.kiv.jsim.JSimSecurityException;
+import cz.zcu.fav.kiv.jsim.JSimSimulation;
+import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
+import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import processors.Processor;
 
 /**
  *
  * @author JAno
  */
-public abstract class AbstractPE {
+public abstract class AbstractPE extends JSimProcess{
 
-    private int id;
-    private String nombre;
     private String next_pe;
     private Processor processor;
 
-    public AbstractPE(int id, String nombre, String next_pe, Processor processor) {
-        this.id = id;
-        this.nombre = nombre;
+    public AbstractPE(String nombre, JSimSimulation simulation, String next_pe, Processor processor) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
+        super(nombre, simulation);
         this.next_pe = next_pe;
         this.processor = processor;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getNext_pe() {
@@ -59,15 +45,16 @@ public abstract class AbstractPE {
         this.processor = processor;
     }
 
-    public void sendMessage(Token token) throws JSimSecurityException {
-        //System.out.println("Soy el " + this.nombre + " y estoy enviando un mensaje");
-        token.setSender(this.nombre);
+    public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
+        System.out.println("-- Soy el " + this.getName() + " y estoy enviando un mensaje hacia " + this.next_pe);
+        token.setSender(this.getName());
         token.setPosting(this.next_pe);
         JSimLink link = new JSimLink(token);
         link.into(this.processor.getQueue());
+        
     }
 
-    public void receiveMessage(Token token) throws JSimSecurityException {
+    public void receiveMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
         sendMessage(token);
     }
 }

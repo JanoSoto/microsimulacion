@@ -5,6 +5,10 @@
  */
 package PEs;
 
+import cz.zcu.fav.kiv.jsim.JSimInvalidParametersException;
+import cz.zcu.fav.kiv.jsim.JSimSimulation;
+import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
+import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import processors.Processor;
 import util.AbstractPE;
 import util.Token;
@@ -15,8 +19,8 @@ import util.Token;
  */
 public class GenericPE extends AbstractPE {
 
-    public GenericPE(int id, String nombre, String next_pe, Processor processor) {
-        super(id, nombre, next_pe, processor);
+    public GenericPE(int id, String nombre, String next_pe, Processor processor, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
+        super(nombre, simulation, next_pe, processor);
     }
 
 }

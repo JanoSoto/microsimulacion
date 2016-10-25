@@ -10,18 +10,13 @@ import cz.zcu.fav.kiv.jsim.JSimHead;
 import cz.zcu.fav.kiv.jsim.JSimInvalidParametersException;
 import cz.zcu.fav.kiv.jsim.JSimLink;
 import cz.zcu.fav.kiv.jsim.JSimProcess;
-import cz.zcu.fav.kiv.jsim.JSimSecurityException;
 import cz.zcu.fav.kiv.jsim.JSimSimulation;
 import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
 import cz.zcu.fav.kiv.jsim.JSimSystem;
 import cz.zcu.fav.kiv.jsim.JSimTooManyHeadsException;
 import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import util.AbstractPE;
 import util.ProcessingTime;
 import util.RouteTable;
@@ -81,11 +76,11 @@ public class Processor extends JSimProcess {
 
     @Override
     protected void life() {
+        
         try {
             JSimLink link;
             double time;
-            
-            message("SOY UN PROCESADOR Y ESTOY VIVO");
+            message("SOY UN PROCESADOR " + this.getName() + " Y ESTOY VIVO");
             while (true) {
                 time = this.myParent.getCurrentTime();
                 
@@ -103,6 +98,7 @@ public class Processor extends JSimProcess {
                     if (pe_list.containsKey(token.getPosting())) {
                         message("-- Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
                         pe_list.get(token.getPosting()).receiveMessage(token);
+                        hold(0.1);
                     } else {
                         message("-- Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
                         Processor postingProc = this.routeTable.getRouteTable().get(token.getPosting());
@@ -113,10 +109,13 @@ public class Processor extends JSimProcess {
 
                 }
                 else{
-                    //message("LA COLA ESTA VACIA");
+                    message("LA COLA ESTA VACIA");
+                    hold(0.1);
                 }
             }
-        } catch (JSimException e) {
+        } 
+        catch (JSimException e) {
+            System.out.println("NO SE HA DESPERTADO AL PROCESO");
             e.printStackTrace(System.out);
             e.printComment();
         }
