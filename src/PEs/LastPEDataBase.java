@@ -19,8 +19,11 @@ import util.Token;
  */
 public class LastPEDataBase extends AbstractPE {
 
+    private int counter;
+    
     public LastPEDataBase(int id, String nombre, String next_pe, Processor processor, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe, processor);
+        this.counter = 0;
     }
 
     @Override
@@ -30,7 +33,9 @@ public class LastPEDataBase extends AbstractPE {
 
     @Override
     public void receiveMessage(Token token) {
-        //TODO Función hold con el valor de guardar en disco
+        System.out.println("Llega el siguiente token a la DB: " + token.getTipo());
+        counter++;
+        System.out.println("Han llegado "+counter+" a la DB");
     }
 
 }

@@ -10,8 +10,11 @@ import cz.zcu.fav.kiv.jsim.JSimLink;
 import cz.zcu.fav.kiv.jsim.JSimSecurityException;
 import cz.zcu.fav.kiv.jsim.JSimSimulation;
 import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
+import static cz.zcu.fav.kiv.jsim.JSimSystem.uniform;
 import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import processors.Processor;
 import util.AbstractPE;
 import util.Token;
@@ -35,11 +38,14 @@ public class PE4 extends AbstractPE {
 
     @Override
     public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
-        int random_number = (int) this.random.nextDouble()*3;
-        switch(random_number){
+        //int random_number = (int) this.random.nextDouble()*2;
+        double random_number = uniform(0.5, 3.5);
+        //System.out.println("-*- N° aleatorio generado en el PE: "+random_number +". Su redondeo es: " + (int) Math.round(random_number));
+        switch((int) Math.round(random_number)){
             //Caso de incendio
             case 1:{
                 //this.PE5.receiveMessage(token);
+                System.out.println("** Enviando mensaje desde PE 4 hacia PE5");
                 token.setSender(this.getName());
                 token.setPosting("PE5");
                 JSimLink link = new JSimLink(token);
@@ -49,6 +55,7 @@ public class PE4 extends AbstractPE {
             //Caso de robo
             case 2:{
                 //this.PE6.receiveMessage(token);
+                System.out.println("** Enviando mensaje desde PE 4 hacia PE6");
                 token.setSender(this.getName());
                 token.setPosting("PE6");
                 JSimLink link = new JSimLink(token);
@@ -58,6 +65,7 @@ public class PE4 extends AbstractPE {
             //Caso de accidente
             case 3:{
                 //this.PE7.receiveMessage(token);
+                System.out.println("** Enviando mensaje desde PE 4 hacia PE7");
                 token.setSender(this.getName());
                 token.setPosting("PE7");
                 JSimLink link = new JSimLink(token);
@@ -70,7 +78,11 @@ public class PE4 extends AbstractPE {
 
     @Override
     public void receiveMessage(Token token) {
-        //Recibe mensaje desde el clasificador
+        try {
+            sendMessage(token);
+        } catch (JSimSecurityException | JSimInvalidParametersException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
 }

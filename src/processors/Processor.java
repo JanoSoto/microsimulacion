@@ -97,7 +97,7 @@ public class Processor extends JSimProcess {
 
                     //Envía el mensaje al siguiente PE. Si no lo encuentra, lo envía al otro procesador.
                     if (pe_list.containsKey(token.getPosting())) {
-                        message("-- Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
+                        message("-- PROCESADOR: Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
                         pe_list.get(token.getPosting()).receiveMessage(token);
                         hold(0.1);
                     } else {

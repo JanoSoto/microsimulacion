@@ -41,7 +41,9 @@ public class LastPENotification extends AbstractPE {
 
     @Override
     public void receiveMessage(Token token) {
-        this.counter++;
+        System.out.println("Llega el siguiente token al PE de notificacion: " + token.getTipo());
+        counter++;
+        System.out.println("Han llegado "+counter+" al PE de notificacion");
     }
 
 }

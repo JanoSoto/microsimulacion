@@ -6,11 +6,15 @@
 package PEs;
 
 import cz.zcu.fav.kiv.jsim.JSimInvalidParametersException;
+import cz.zcu.fav.kiv.jsim.JSimLink;
 import cz.zcu.fav.kiv.jsim.JSimSecurityException;
 import cz.zcu.fav.kiv.jsim.JSimSimulation;
 import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
+import static cz.zcu.fav.kiv.jsim.JSimSystem.uniform;
 import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import processors.Processor;
 import util.AbstractPE;
 import util.Token;
@@ -42,16 +46,27 @@ public class PE7 extends AbstractPE {
 
     @Override
     public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
-        int random_number = (int) this.random.nextDouble()*2;
-        switch(random_number){
+        //int random_number = (int) this.random.nextDouble()*2;
+        double random_number = uniform(0.5, 3.5);
+        switch((int) Math.round(random_number)){
             //Notificar
             case 1:{
-                this.PE9.receiveMessage(token);
+                //this.PE9.receiveMessage(token);
+                System.out.println("** Enviando mensaje desde el PE7 hacia PE9");
+                token.setSender(this.getName());
+                token.setPosting("PE9");
+                JSimLink link = new JSimLink(token);
+                link.into(this.getProcessor().getQueue());
                 break;
             }
             //Llamar a emergencias
             case 2:{
-                this.PE8.receiveMessage(token);
+                //this.PE8.receiveMessage(token);
+                System.out.println("** Enviando mensaje desde el PE7 hacia PE8");
+                token.setSender(this.getName());
+                token.setPosting("PE8");
+                JSimLink link = new JSimLink(token);
+                link.into(this.getProcessor().getQueue());
                 break;
             }
             
@@ -63,6 +78,11 @@ public class PE7 extends AbstractPE {
     public void receiveMessage(Token token) {
         //Recibe desde PE4
         counter++;
+        try {
+            sendMessage(token);
+        } catch (JSimSecurityException | JSimInvalidParametersException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
 }
