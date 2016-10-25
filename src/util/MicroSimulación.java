@@ -28,6 +28,7 @@ public class MicroSimulación {
 
     public static final int NUMBER_OF_PROCESSES = 1;
     public static final double SIMULATION_FINAL_TIME = 0.3;
+    public static final double lambda = 0.5; 
 
     /**
      * @param args the command line arguments
@@ -65,7 +66,7 @@ public class MicroSimulación {
             Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1, PE1, PE2, PE4);
 
             //Creación del adapter
-            Adapter adapter = new Adapter("Adaptador", simulation, classifier, box);
+            Adapter adapter = new Adapter("Adaptador", simulation, procesador1, box);
             
             //Asignación de los PEs a los procesadores
             procesador1.getPe_list().put("Classifier", classifier);
@@ -114,7 +115,7 @@ public class MicroSimulación {
             System.out.println("Inicio de la simulacion");
             
             //active procesor
-            adapter.activate(0.0);
+            adapter.activateNow();
             procesador1.activate(0.0);
             procesador2.activate(0.0);
             //

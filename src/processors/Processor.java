@@ -39,7 +39,8 @@ public class Processor extends JSimProcess {
     private RouteTable routeTable;
     private JSimMessageBox box;
 
-    public Processor(String name, JSimSimulation simulation, JSimMessageBox box) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException, JSimTooManyHeadsException {
+    public Processor(String name, JSimSimulation simulation, JSimMessageBox box) 
+            throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException, JSimTooManyHeadsException {
         super(name, simulation);
         this.queue = new JSimHead("requests", simulation);
         this.pe_list = new HashMap<>();
@@ -113,7 +114,8 @@ public class Processor extends JSimProcess {
 
                 }
                 else{
-                    //message("LA COLA ESTA VACIA");
+                    message("LA COLA ESTA VACIA");
+                    hold(1);
                 }
             }
         } catch (JSimException e) {

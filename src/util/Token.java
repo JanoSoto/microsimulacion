@@ -5,6 +5,8 @@
  */
 package util;
 
+import cz.zcu.fav.kiv.jsim.ipc.JSimMessage;
+
 /**
  *
  * @author JAno
