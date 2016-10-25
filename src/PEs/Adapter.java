@@ -62,7 +62,7 @@ public class Adapter extends JSimProcess {
             double time;
             double random;
             
-            int i = 0, limite = 500;
+            int i = 0, limite = 500, mensajes = 0;
             
             while (true && i < limite) {
                 time = this.myParent.getCurrentTime();
@@ -83,7 +83,7 @@ public class Adapter extends JSimProcess {
                     token = new Token(this.texto[1], Math.abs(gauss(0, 1)));
                     
                 }
-               
+                mensajes++;
                 this.clasificador.receiveMessage(token);
                 //message("-- Soy el adapter y envio este mensaje al clasificador: "+token.getTipo());                
                 
@@ -95,6 +95,9 @@ public class Adapter extends JSimProcess {
                 */
                 
                 i++;
+                if(i == limite){
+                    System.out.println("--- SE ENVIARON "+mensajes+" MENSAJES");
+                }
                 
                 hold(0.1);
             }
