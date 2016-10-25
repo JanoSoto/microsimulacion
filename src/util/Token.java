@@ -20,6 +20,12 @@ public class Token {
     private String sender;
     //Destino
     private String posting;
+    
+    //Tiempo de inicio
+    private Double t_init;
+    
+    //Tiempo de fin
+    private Double t_end;
 
     public Token(String tipo, double lambda) {
         this.tipo = tipo;
@@ -58,4 +64,20 @@ public class Token {
         this.posting = posting;
     }
 
+    public Double getT_init() {
+        return t_init;
+    }
+
+    public void setT_init(Double t_init) {
+        this.t_init = t_init;
+    }
+
+    public Double getT_end() {
+        return t_end;
+    }
+
+    public void setT_end(Double t_end) {
+        this.t_end = t_end;
+    }
+    
 }

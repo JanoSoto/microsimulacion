@@ -35,7 +35,10 @@ public class LastPEDataBase extends AbstractPE {
     public void receiveMessage(Token token) {
         System.out.println("Llega el siguiente token a la DB: " + token.getTipo());
         counter++;
+        token.setT_end(this.myParent.getCurrentTime());
         System.out.println("Han llegado "+counter+" a la DB");
+        System.out.println("Tiempo de inicio: " + token.getT_init());
+        System.out.println("Tiempo de fin: " + token.getT_end());
     }
 
 }

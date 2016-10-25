@@ -73,14 +73,17 @@ public class Adapter extends JSimProcess {
                 //Inscripción
                 if(random <= 0.001){
                     token = new Token(this.texto[0], Math.abs(gauss(0, 0.5)));
+                    token.setT_init(this.myParent.getCurrentTime());
                 }
                 //SOS
                 else if(random <= 0.15){
                     token = new Token(this.texto[2], Math.abs(gauss(0, 0.2)));
+                    token.setT_init(this.myParent.getCurrentTime());
                 }
                 //Localizacion
                 else{
                     token = new Token(this.texto[1], Math.abs(gauss(0, 1)));
+                    token.setT_init(this.myParent.getCurrentTime());
                     
                 }
                 mensajes++;
