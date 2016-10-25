@@ -16,6 +16,7 @@ import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
 import cz.zcu.fav.kiv.jsim.JSimSystem;
 import cz.zcu.fav.kiv.jsim.JSimTooManyHeadsException;
 import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
+import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,12 +37,14 @@ public class Processor extends JSimProcess {
     private JSimHead queue;
     private HashMap<String, AbstractPE> pe_list;
     private RouteTable routeTable;
+    private JSimMessageBox box;
 
-    public Processor(String name, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException, JSimTooManyHeadsException {
+    public Processor(String name, JSimSimulation simulation, JSimMessageBox box) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException, JSimTooManyHeadsException {
         super(name, simulation);
         this.queue = new JSimHead("requests", simulation);
         this.pe_list = new HashMap<>();
         this.routeTable = null;
+        this.box = box;
     }
 
     public JSimHead getQueue() {
@@ -81,31 +84,36 @@ public class Processor extends JSimProcess {
         try {
             JSimLink link;
             double time;
-
+            
+            message("SOY UN PROCESADOR Y ESTOY VIVO");
             while (true) {
                 time = this.myParent.getCurrentTime();
-
+                
                 if (!queue.empty()) {
                     link = queue.first();
                     Token token = (Token) link.getData();
                     link.out();
 
                     //TODO Escribir mensaje que emitirá el simulador
-                    message(time + "algun mensaje");
-
+                    
                     //Hace hold con una exponencial negativa
                     hold(JSimSystem.negExp(token.getLambda()));
 
                     //Envía el mensaje al siguiente PE. Si no lo encuentra, lo envía al otro procesador.
                     if (pe_list.containsKey(token.getPosting())) {
+                        message("-- Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
                         pe_list.get(token.getPosting()).receiveMessage(token);
                     } else {
+                        message("-- Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
                         Processor postingProc = this.routeTable.getRouteTable().get(token.getPosting());
                         postingProc.getPe_list().get(token.getPosting()).receiveMessage(token);
                         //Simulación del tiempo de comunicación
                         hold(1);
                     }
 
+                }
+                else{
+                    //message("LA COLA ESTA VACIA");
                 }
             }
         } catch (JSimException e) {

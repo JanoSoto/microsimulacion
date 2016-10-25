@@ -5,6 +5,8 @@
  */
 package PEs;
 
+import cz.zcu.fav.kiv.jsim.JSimSecurityException;
+import java.util.Random;
 import processors.Processor;
 import util.AbstractPE;
 import util.Token;
@@ -16,9 +18,14 @@ import util.Token;
 public class PE7 extends AbstractPE {
 
     private int counter;
+    private final GenericPE PE9;
+    private final PECounter PE8;
+    private Random random;
 
-    public PE7(int id, String nombre, String next_pe, Processor processor) {
+    public PE7(int id, String nombre, String next_pe, Processor processor, GenericPE PE9, PECounter PE8) {
         super(id, nombre, next_pe, processor);
+        this.PE8 = PE8;
+        this.PE9 = PE9;
     }
 
     public int getCounter() {
@@ -30,8 +37,21 @@ public class PE7 extends AbstractPE {
     }
 
     @Override
-    public void sendMessage(Token token) {
-        //Calcula una probabilidad para llamar a urgencias (PE8) o para notificar (PE9)
+    public void sendMessage(Token token) throws JSimSecurityException {
+        int random_number = (int) this.random.nextDouble()*2;
+        switch(random_number){
+            //Notificar
+            case 1:{
+                this.PE9.receiveMessage(token);
+                break;
+            }
+            //Llamar a emergencias
+            case 2:{
+                this.PE8.receiveMessage(token);
+                break;
+            }
+            
+        }
     }
 
     @Override

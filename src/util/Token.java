@@ -14,6 +14,8 @@ public class Token {
     //Tipo puede ser: "insripcion", "localizacion", "sos"
     private String tipo;
     private double lambda;
+    //Origen
+    private String sender;
     //Destino
     private String posting;
 
@@ -36,6 +38,14 @@ public class Token {
 
     public void setLambda(double lambda) {
         this.lambda = lambda;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
     public String getPosting() {

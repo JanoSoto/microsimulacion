@@ -14,6 +14,7 @@ import PEs.PE4;
 import PEs.PE7;
 import PEs.PECounter;
 import cz.zcu.fav.kiv.jsim.*;
+import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,39 +32,41 @@ public class MicroSimulación {
     /**
      * @param args the command line arguments
      */
+    @SuppressWarnings("empty-statement")
     public static void main(String[] args) {
         JSimSimulation simulation = null;
-
-        try {
+        JSimMessageBox box = null;
+        
+        try {   
             simulation = new JSimSimulation("Simulador 1");
-
+            box = new JSimMessageBox("Caja de mensajes compartida");
             //Creación de los procesadores
-            Processor procesador1 = new Processor("Procesador 1", simulation);
-            Processor procesador2 = new Processor("Procesador 2", simulation);
-
-            //Creación del clasifier
-            Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1);
-
-            //Creación del adapter
-            Adapter adapter = new Adapter("Adaptador", simulation, classifier);
+            Processor procesador1 = new Processor("Procesador 1", simulation, box);
+            Processor procesador2 = new Processor("Procesador 2", simulation, box);
 
             //Creación de los PEs
             GenericPE PE1 = new GenericPE(1, "PE1", "PE3", procesador1);
             GenericPE PE2 = new GenericPE(2, "PE2", "PE3", procesador1);
             GenericPE PE3 = new GenericPE(3, "PE3", "DataBase", procesador1);
-            PE4 PE4 = new PE4(4, "PE4", "PE5 PE6 P7", procesador1);
             PECounter PE5 = new PECounter(5, "PE5", "PE9", procesador1);
             PECounter PE6 = new PECounter(6, "PE6", "PE9", procesador1);
-            PE7 PE7 = new PE7(7, "PE7", "PE8 PE9", procesador1);
             PECounter PE8 = new PECounter(8, "PE8", "PE9", procesador2);
             GenericPE PE9 = new GenericPE(9, "PE9", "PE10", procesador2);
+            PE7 PE7 = new PE7(7, "PE7", "PE8 PE9", procesador1, PE9, PE8);
+            PE4 PE4 = new PE4(4, "PE4", "PE5 PE6 P7", procesador1, PE5, PE6, PE7);
             GenericPE PE10 = new GenericPE(10, "PE10", "PE11", procesador2);
             GenericPE PE11 = new GenericPE(11, "PE11", "PE12", procesador2);
             GenericPE PE12 = new GenericPE(12, "PE12", "PE13", procesador2);
             GenericPE PE13 = new GenericPE(13, "PE13", "Notification", procesador2);
             LastPEDataBase PEDataBase = new LastPEDataBase(14, "DataBase", "", procesador2);
             LastPENotification PENotification = new LastPENotification(15, "Notification", "", procesador2);
+            
+            //Creación del clasifier
+            Classifier classifier = new Classifier(0, "Classifier", "PE1 PE2 PE4", procesador1, PE1, PE2, PE4);
 
+            //Creación del adapter
+            Adapter adapter = new Adapter("Adaptador", simulation, classifier, box);
+            
             //Asignación de los PEs a los procesadores
             procesador1.getPe_list().put("Classifier", classifier);
             procesador1.getPe_list().put("PE1", PE1);
@@ -107,20 +110,17 @@ public class MicroSimulación {
             procesador1.setRouteTable(routeTable);
             procesador2.setRouteTable(routeTable);
 
-            //active procesor
-            procesador1.activate(0.5);
-            //
             // main simulation loop
-            System.out.println("Some simulation steps...");
+            System.out.println("Inicio de la simulacion");
+            
+            //active procesor
+            adapter.activate(0.0);
+            procesador1.activate(0.0);
+            procesador2.activate(0.0);
+            //
 
-            while (simulation.step() == true) {
-                
-                // borrar esta linea
-                System.out.println("entre!");
-                if (simulation.getCurrentTime() >= SIMULATION_FINAL_TIME) {
-                    break;
-                }
-            }
+            while (simulation.step());
+            
 
         } catch (JSimException e) {
             e.printStackTrace();

@@ -6,6 +6,9 @@
 package PEs;
 
 import cz.zcu.fav.kiv.jsim.*;
+import static cz.zcu.fav.kiv.jsim.JSimSystem.gauss;
+import static cz.zcu.fav.kiv.jsim.JSimSystem.uniform;
+import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
 import java.util.Random;
 import util.ProcessingTime;
 import util.Token;
@@ -17,12 +20,13 @@ import util.Token;
 public class Adapter extends JSimProcess {
 
     private ProcessingTime pt;
-    private Classifier clasificador;
-    private String[] texto = {"inscripcion", "localizacion", "sos"};
+    private final Classifier clasificador;
+    private final String[] texto = {"inscripcion", "localizacion", "sos"};
     private String name;
     private Random rdm;
+    private JSimMessageBox box;
 
-    public Adapter(String name, JSimSimulation sim, Classifier clasificador)
+    public Adapter(String name, JSimSimulation sim, Classifier clasificador, JSimMessageBox box)
             throws JSimSimulationAlreadyTerminatedException,
             JSimInvalidParametersException,
             JSimTooManyProcessesException {
@@ -30,6 +34,7 @@ public class Adapter extends JSimProcess {
         this.name = name;
         this.clasificador = clasificador;
         this.rdm = new Random();
+        this.box = box;
     }
 
     public String getRdm() {
@@ -42,19 +47,33 @@ public class Adapter extends JSimProcess {
 
     @Override
     protected void life() {
+        message("SOY EL ADAPTER Y ESTOY VIVO");
         try {
             double time;
-
+            double random;
+            
             while (true) {
                 time = this.myParent.getCurrentTime();
-                Token token = new Token(this.getRdm(), 0.1);
-
-                //TODO Escribir mensaje que emitirá el simulador
-                message(time + "algun mensaje");
-
-                //Hace hold con una exponencial negativa
-                hold(JSimSystem.negExp(token.getLambda()));
+                //Token token = new Token(this.getRdm(), 0.1);
+                random = uniform(0.0, 1.0);
+                Token token;
+                double lambda = Math.abs(gauss(0, 0.2));
+                //Inscripción
+                if(random <= 0.001){
+                    token = new Token(this.texto[0], Math.abs(gauss(0, 0.5)));
+                }
+                //SOS
+                else if(random <= 0.15){
+                    token = new Token(this.texto[2], Math.abs(gauss(0, 0.2)));
+                }
+                //Localizacion
+                else{
+                    token = new Token(this.texto[1], Math.abs(gauss(0, 1)));
+                    
+                }
+               
                 this.clasificador.receiveMessage(token);
+                //message("-- Soy el adapter y envio este mensaje al clasificador: "+token.getTipo());
             }
         } catch (JSimException e) {
             e.printStackTrace(System.out);

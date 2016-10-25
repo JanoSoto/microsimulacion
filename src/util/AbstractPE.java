@@ -60,6 +60,8 @@ public abstract class AbstractPE {
     }
 
     public void sendMessage(Token token) throws JSimSecurityException {
+        //System.out.println("Soy el " + this.nombre + " y estoy enviando un mensaje");
+        token.setSender(this.nombre);
         token.setPosting(this.next_pe);
         JSimLink link = new JSimLink(token);
         link.into(this.processor.getQueue());
