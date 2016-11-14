@@ -57,12 +57,12 @@ public class Adapter extends JSimProcess {
 
     @Override
     protected void life() {
-        message("SOY EL ADAPTER Y ESTOY VIVO");
+        //message("SOY EL ADAPTER Y ESTOY VIVO");
         try {
             double time;
             double random;
             
-            int i = 0, limite = 500, mensajes = 0;
+            int i = 0, limite = 1000, mensajes = 0;
             
             while (true && i < limite) {
                 time = this.myParent.getCurrentTime();
@@ -88,14 +88,6 @@ public class Adapter extends JSimProcess {
                 }
                 mensajes++;
                 this.clasificador.receiveMessage(token);
-                //message("-- Soy el adapter y envio este mensaje al clasificador: "+token.getTipo());                
-                
-                /*
-                this.sendMessage(token);
-                //this.procesador.se.receiveMessage(token);
-                message("-- Soy el adapter y envio este mensaje al clasificador: "+token.getTipo());
-                hold(1);
-                */
                 
                 i++;
                 if(i == limite){

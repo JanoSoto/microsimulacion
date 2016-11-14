@@ -45,6 +45,11 @@ public class MicroSimulación {
             Processor procesador1 = new Processor("Procesador 1", simulation, box);
             Processor procesador2 = new Processor("Procesador 2", simulation, box);
 
+            //Creación de la tubería de comunicación
+            ComunicationPipe pipe = new ComunicationPipe("pipe", simulation, procesador1, procesador2);
+            procesador1.setPipe(pipe);
+            procesador2.setPipe(pipe);
+            
             //Creación de los PEs
             GenericPE PE1 = new GenericPE(1, "PE1", "PE3", procesador1, simulation);
             GenericPE PE2 = new GenericPE(2, "PE2", "PE3", procesador1, simulation);
@@ -87,7 +92,7 @@ public class MicroSimulación {
             procesador2.getPe_list().put("PE13", PE13);
             procesador2.getPe_list().put("DataBase", PEDataBase);
             procesador2.getPe_list().put("Notification", PENotification);
-
+            
             //Creación de la tabla de ruteo
             HashMap<String, Processor> rt = new HashMap<>();
             rt.put("classifier", procesador1);
@@ -111,17 +116,18 @@ public class MicroSimulación {
 
             procesador1.setRouteTable(routeTable);
             procesador2.setRouteTable(routeTable);
-
+            
             // main simulation loop
             System.out.println("Inicio de la simulacion");
             
-            //active procesor
             System.out.println("MAIN ACTIVA EL ADAPTER");
             adapter.activateNow();
             System.out.println("ACTIVANDO EL PROCESADOR 1");
             procesador1.activateNow();
             System.out.println("ACTIVANDO EL PROCESADOR 2");
             procesador2.activateNow();
+            //System.out.println("ACTIVANDO EL PIPE DE COMUNICACIÓN");
+            //pipe.activateNow();
             
             while(simulation.step());
             

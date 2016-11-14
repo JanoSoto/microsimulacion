@@ -28,6 +28,7 @@ public class GenericPE extends AbstractPE {
     
     @Override
     public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
+        System.out.println("GENERIC PE");
         System.out.println("** Enviando mensaje desde " + this.getName() + " hacia " + this.getNext_pe());
         token.setSender(this.getName());
         token.setPosting(this.getNext_pe());

@@ -12,8 +12,6 @@ import cz.zcu.fav.kiv.jsim.JSimSecurityException;
 import cz.zcu.fav.kiv.jsim.JSimSimulation;
 import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
 import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import processors.Processor;
 
 /**
@@ -48,18 +46,9 @@ public abstract class AbstractPE extends JSimProcess{
         this.processor = processor;
     }
 
-    public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
-        System.out.println("** Enviando mensaje desde " + this.getName() + " hacia " + this.next_pe);
-        token.setSender(this.getName());
-        token.setPosting(this.next_pe);
-        JSimLink link = new JSimLink(token);
-        link.into(this.processor.getQueue());
-        
-    }
+    public abstract void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException;
 
-    public void receiveMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
-        sendMessage(token);     
-    }
+    public abstract void receiveMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException;
     
     @Override
     public void life(){

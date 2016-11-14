@@ -18,6 +18,7 @@ import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
 import java.util.HashMap;
 import util.AbstractPE;
+import util.ComunicationPipe;
 import util.ProcessingTime;
 import util.RouteTable;
 import util.Token;
@@ -33,6 +34,7 @@ public class Processor extends JSimProcess {
     private HashMap<String, AbstractPE> pe_list;
     private RouteTable routeTable;
     private JSimMessageBox box;
+    private ComunicationPipe pipe;
 
     public Processor(String name, JSimSimulation simulation, JSimMessageBox box) 
             throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException, JSimTooManyHeadsException {
@@ -42,7 +44,11 @@ public class Processor extends JSimProcess {
         this.routeTable = null;
         this.box = box;
     }
-
+    
+    public void setPipe(ComunicationPipe pipe){
+        this.pipe = pipe;
+    }
+    
     public JSimHead getQueue() {
         return queue;
     }
@@ -101,17 +107,21 @@ public class Processor extends JSimProcess {
                         System.out.println("-- " + this.getName() + ": Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
                         pe_list.get(token.getPosting()).receiveMessage(token);
                         hold(0.1);
+                        //pipe.receiveMessage(token);
                     } 
                     else {
                         System.out.println("-- " + this.getName() + ": Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
+                        
                         Processor postingProc = this.routeTable.getRouteTable().get(token.getPosting());
                         if(postingProc.isIdle()){
                             System.out.println(this.getName() + " DESPIERTA AL " + postingProc.getName());
                             postingProc.activateNow();
                         }
                         postingProc.getPe_list().get(token.getPosting()).receiveMessage(token);
+                        
                         //Simulación del tiempo de comunicación
                         hold(1);
+                        //pipe.receiveMessage(token);
                     }
                     count = 0;
                 }
@@ -120,7 +130,7 @@ public class Processor extends JSimProcess {
                     message(this.getName() + ": LA COLA ESTA VACIA");
                     hold(0.1);
                     */
-                    if(count < 5){                        
+                    if(count < 10){                        
                         message(this.getName() + ": LA COLA ESTA VACIA");
                         count++;
                     }
@@ -128,6 +138,7 @@ public class Processor extends JSimProcess {
                         message("EL " + this.getName() + " SE DUERME");
                         this.passivate();
                     }
+                    hold(0.001);
                 }
             }
         } 

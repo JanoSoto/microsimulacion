@@ -2,14 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
+        <group/>
+        <group name="RBox development">
+            <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/PEs/Adapter.java</file>
             <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/PEs/LastPEDataBase.java</file>
-            <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/PEs/PE7.java</file>
-            <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/PEs/PECounter.java</file>
+            <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/PEs/Classifier.java</file>
             <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/util/AbstractPE.java</file>
             <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/util/MicroSimulación.java</file>
-            <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/PEs/LastPENotification.java</file>
-            <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/processors/Processor.java</file>
+            <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/PEs/GenericPE.java</file>
+            <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/util/ComunicationPipe.java</file>
             <file>file:/C:/Users/JAno/Documents/NetBeansProjects/Micro%20simulación/src/PEs/PE4.java</file>
         </group>
     </open-files>
