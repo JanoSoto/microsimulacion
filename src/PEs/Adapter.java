@@ -8,7 +8,6 @@ package PEs;
 import cz.zcu.fav.kiv.jsim.*;
 import static cz.zcu.fav.kiv.jsim.JSimSystem.gauss;
 import static cz.zcu.fav.kiv.jsim.JSimSystem.uniform;
-import cz.zcu.fav.kiv.jsim.ipc.JSimMessage;
 import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
 import java.util.Random;
 import processors.Processor;
@@ -59,9 +58,18 @@ public class Adapter extends JSimProcess {
     protected void life() {
         //message("SOY EL ADAPTER Y ESTOY VIVO");
         try {
-            double time;
-            double random;
+            double time, random;
             
+            //Probabilidades de ocurrencia de cada evento
+            double prob_inscripcion = 0.001;
+            double prob_sos = 0.151;
+            double prob_localizacion = 1 - prob_inscripcion - prob_sos;
+            
+            //Desviación estándar para el cálculo de la función Gauss
+            double sd_inscripcion = 0.5;
+            double sd_sos = 0.2;
+            double sd_localizacion = 1;
+                    
             int i = 0, limite = 1000, mensajes = 0;
             
             while (true && i < limite) {
@@ -71,18 +79,18 @@ public class Adapter extends JSimProcess {
                 Token token;
                 double lambda;
                 //Inscripción
-                if(random <= 0.001){
-                    token = new Token(this.texto[0], Math.abs(gauss(0, 0.5)));
+                if(random <= prob_inscripcion){
+                    token = new Token(this.texto[0], Math.abs(gauss(0, sd_inscripcion)));
                     token.setT_init(this.myParent.getCurrentTime());
                 }
                 //SOS
-                else if(random <= 0.15){
-                    token = new Token(this.texto[2], Math.abs(gauss(0, 0.2)));
+                else if(random <= prob_sos){
+                    token = new Token(this.texto[2], Math.abs(gauss(0, sd_sos)));
                     token.setT_init(this.myParent.getCurrentTime());
                 }
                 //Localizacion
                 else{
-                    token = new Token(this.texto[1], Math.abs(gauss(0, 1)));
+                    token = new Token(this.texto[1], Math.abs(gauss(0, sd_localizacion)));
                     token.setT_init(this.myParent.getCurrentTime());
                     
                 }
