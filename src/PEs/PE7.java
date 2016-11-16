@@ -16,8 +16,8 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import processors.Processor;
-import util.AbstractPE;
-import util.Token;
+import simulatorUtil.AbstractPE;
+import simulatorUtil.Token;
 
 /**
  *

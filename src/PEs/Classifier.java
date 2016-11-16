@@ -12,8 +12,8 @@ import cz.zcu.fav.kiv.jsim.JSimSimulation;
 import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
 import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import processors.Processor;
-import util.AbstractPE;
-import util.Token;
+import simulatorUtil.AbstractPE;
+import simulatorUtil.Token;
 
 /**
  *

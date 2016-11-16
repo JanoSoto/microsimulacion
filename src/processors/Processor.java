@@ -17,11 +17,11 @@ import cz.zcu.fav.kiv.jsim.JSimTooManyHeadsException;
 import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
 import java.util.HashMap;
-import util.AbstractPE;
-import util.ComunicationPipe;
-import util.ProcessingTime;
-import util.RouteTable;
-import util.Token;
+import simulatorUtil.AbstractPE;
+import simulatorUtil.ComunicationPipe;
+import simulatorUtil.ProcessingTime;
+import simulatorUtil.RouteTable;
+import simulatorUtil.Token;
 
 /**
  *

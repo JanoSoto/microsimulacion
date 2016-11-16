@@ -5,14 +5,16 @@
  */
 package PEs;
 
+import core.Coord;
 import cz.zcu.fav.kiv.jsim.*;
 import static cz.zcu.fav.kiv.jsim.JSimSystem.gauss;
 import static cz.zcu.fav.kiv.jsim.JSimSystem.uniform;
 import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
 import java.util.Random;
 import processors.Processor;
-import util.ProcessingTime;
-import util.Token;
+import simulatorUtil.ProcessingTime;
+import simulatorUtil.Token;
+import ui.DTNSimTextUI;
 
 /**
  *
@@ -28,8 +30,10 @@ public class Adapter extends JSimProcess {
     private Random rdm;
     private JSimMessageBox box;
     private Processor procesador1, procesador2;
+    private DTNSimTextUI oneSimulator;
 
-    public Adapter(String name, JSimSimulation sim, Classifier clasificador, JSimMessageBox box, Processor procesador1, Processor procesador2)
+    public Adapter(String name, JSimSimulation sim, Classifier clasificador, 
+                JSimMessageBox box, Processor procesador1, Processor procesador2)
     //public Adapter(String name, JSimSimulation sim, Processor procesador, JSimMessageBox box)
             throws JSimSimulationAlreadyTerminatedException,
             JSimInvalidParametersException,
@@ -42,6 +46,14 @@ public class Adapter extends JSimProcess {
         this.procesador1 = procesador1;
         this.procesador2 = procesador2;
         this.clasificador = clasificador;
+    }
+
+    public DTNSimTextUI getOneSimulator() {
+        return oneSimulator;
+    }
+
+    public void setOneSimulator(DTNSimTextUI oneSimulator) {
+        this.oneSimulator = oneSimulator;
     }
 
     public String getRdm() {
@@ -85,11 +97,17 @@ public class Adapter extends JSimProcess {
                 }
                 //SOS
                 else if(random <= prob_sos){
+                    //Aquí recibe la ubicación de un usuario que envía un mensaje a través de la red 4g
+                    Coord location = getNodeLocation();
+                    System.out.println("## SOS: ("+location.getX()+", "+location.getY()+")");
                     token = new Token(this.texto[2], Math.abs(gauss(0, sd_sos)));
                     token.setT_init(this.myParent.getCurrentTime());
                 }
                 //Localizacion
                 else{
+                    //Aquí recibe la ubicación de un usuario que envía un mensaje a través de la red 4g
+                    Coord location = getNodeLocation();
+                    System.out.println("## LOCATION: ("+location.getX()+", "+location.getY()+")");
                     token = new Token(this.texto[1], Math.abs(gauss(0, sd_localizacion)));
                     token.setT_init(this.myParent.getCurrentTime());
                     
@@ -109,5 +127,17 @@ public class Adapter extends JSimProcess {
             e.printStackTrace(System.out);
             e.printComment();
         }
+    }
+    
+    /**
+     * Obtiene la ubicación de uno de los nodos del modelo de movilidad
+     * @return Objeto Coord con la ubicación del nodo
+     */
+    public Coord getNodeLocation(){
+        int length = oneSimulator.getWorld().getHosts().size();
+        System.out.println("CANTIDAD DE HOSTS: "+length);
+        Random random = new Random();
+        
+        return oneSimulator.getWorld().getHosts().get(random.nextInt(length)).getLocation();
     }
 }
