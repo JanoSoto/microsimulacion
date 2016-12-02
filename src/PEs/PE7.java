@@ -47,7 +47,7 @@ public class PE7 extends AbstractPE {
     @Override
     public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
         //int random_number = (int) this.random.nextDouble()*2;
-        double random_number = uniform(0.5, 3.5);
+        double random_number = uniform(0.5, 2.5);
         switch((int) Math.round(random_number)){
             //Notificar
             case 1:{

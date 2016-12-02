@@ -35,6 +35,7 @@ public class Processor extends JSimProcess {
     private RouteTable routeTable;
     private JSimMessageBox box;
     private ComunicationPipe pipe;
+    private double busyTime;
 
     public Processor(String name, JSimSimulation simulation, JSimMessageBox box) 
             throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException, JSimTooManyHeadsException {
@@ -43,6 +44,15 @@ public class Processor extends JSimProcess {
         this.pe_list = new HashMap<>();
         this.routeTable = null;
         this.box = box;
+        this.busyTime = 0.0;
+    }
+
+    public double getBusyTime() {
+        return busyTime;
+    }
+
+    public void setBusyTime(double busyTime) {
+        this.busyTime = busyTime;
     }
     
     public void setPipe(ComunicationPipe pipe){
@@ -86,19 +96,17 @@ public class Processor extends JSimProcess {
         
         try {
             JSimLink link;
-            double time;
             message("SOY UN PROCESADOR " + this.getName() + " Y ESTOY VIVO");
             int count = 0;
+            double initialTime = this.myParent.getCurrentTime();
+            //this.myParent.message("**** Tiempo inicial del "+this.getName()+": "+initialTime);
             while (true) {
-                time = this.myParent.getCurrentTime();
-                
                 if (!queue.empty()) {
+                    
                     link = queue.first();
                     Token token = (Token) link.getData();
                     link.out();
-
-                    //TODO Escribir mensaje que emitirá el simulador
-                    
+    
                     //Hace hold con una exponencial negativa para simular el tiempo de procesamiento
                     hold(JSimSystem.negExp(token.getLambda()));
 
@@ -114,6 +122,7 @@ public class Processor extends JSimProcess {
                         
                         Processor postingProc = this.routeTable.getRouteTable().get(token.getPosting());
                         if(postingProc.isIdle()){
+                            initialTime = this.myParent.getCurrentTime();
                             System.out.println(this.getName() + " DESPIERTA AL " + postingProc.getName());
                             postingProc.activateNow();
                         }
@@ -126,16 +135,15 @@ public class Processor extends JSimProcess {
                     count = 0;
                 }
                 else{
-                    /*
-                    message(this.getName() + ": LA COLA ESTA VACIA");
-                    hold(0.1);
-                    */
                     if(count < 10){                        
                         message(this.getName() + ": LA COLA ESTA VACIA");
                         count++;
                     }
                     else{
                         message("EL " + this.getName() + " SE DUERME");
+                        double aux = this.myParent.getCurrentTime() - initialTime;
+                        this.myParent.message("Tiempo agregado al "+this.getName()+": "+aux+"Tiempo anterior: "+this.busyTime+", Tiempo total: "+(this.busyTime+aux));
+                        this.busyTime += aux;
                         this.passivate();
                     }
                     hold(0.001);

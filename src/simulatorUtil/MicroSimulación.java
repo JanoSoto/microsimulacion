@@ -129,7 +129,8 @@ public class MicroSimulación {
             
             // main simulation loop
             System.out.println("Inicio de la simulacion");
-            
+            double initialTime = simulation.getCurrentTime();
+                    
             System.out.println("MAIN ACTIVA EL ADAPTER");
             adapter.activateNow();
             System.out.println("ACTIVANDO EL PROCESADOR 1");
@@ -141,6 +142,19 @@ public class MicroSimulación {
             
             
             while(simulation.step());
+            //while(simulation.getCurrentTime() < 100.0);
+            
+            double finalTime = simulation.getCurrentTime();
+            
+            simulation.message("Tiempo total simulacion (inicial: "+initialTime+", final: "+finalTime+"): "+(finalTime - initialTime));
+            simulation.message("Tiempo de uso del procesador 1: "+procesador1.getBusyTime());
+            simulation.message("Tiempo de uso del procesador 2: "+procesador2.getBusyTime());
+            simulation.message("Cantidad de mensajes PE5: "+PE5.getCounter());
+            simulation.message("Cantidad de mensajes PE6: "+PE6.getCounter());
+            simulation.message("Cantidad de mensajes PE7: "+PE7.getCounter());
+            simulation.message("Cantidad de mensajes PE8: "+PE8.getCounter());
+            simulation.message("Cantidad de mensajes PEDataBase: "+PEDataBase.getCounter());
+            simulation.message("Cantidad de mensajes PENotification: "+PENotification.getCounter());
             
 
         } catch (JSimException e) {

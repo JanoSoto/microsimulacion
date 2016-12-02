@@ -123,7 +123,7 @@ public class LastPENotification extends AbstractPE {
         }
         
         // hold por cantidad de antenas
-        hold(antenas*0.3);
+//        hold(antenas*0.3);
         
         System.out.println("## Cantidad de antenas para llegar al DataCenter: " + antenas);
     }
