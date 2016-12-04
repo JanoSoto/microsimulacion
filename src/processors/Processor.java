@@ -112,15 +112,14 @@ public class Processor extends JSimProcess {
 
                     //Envía el mensaje al siguiente PE. Si no lo encuentra, lo envía al otro procesador.
                     if (pe_list.containsKey(token.getPosting())) {
-                        System.out.println("-- " + this.getName() + ": Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
+                        this.myParent.message("-- " + this.getName() + ": Enviando token desde " + token.getSender() + " hacia " + token.getPosting() + "[" + this.getName() + "]");
                         pe_list.get(token.getPosting()).receiveMessage(token);
                         hold(0.1);
                         //pipe.receiveMessage(token);
                     } 
-                    else {
-                        System.out.println("-- " + this.getName() + ": Enviando token desde " + token.getSender() + " hacia " + token.getPosting());
-                        
-                        Processor postingProc = this.routeTable.getRouteTable().get(token.getPosting());
+                    else {                        
+                        Processor postingProc = this.routeTable.getRouteTable().get(token.getPosting());                        
+                        System.out.println("-- " + this.getName() + ": Enviando token desde " + token.getSender() + " hacia " + token.getPosting() + "[" + postingProc.getName() + "]");
                         if(postingProc.isIdle()){
                             initialTime = this.myParent.getCurrentTime();
                             System.out.println(this.getName() + " DESPIERTA AL " + postingProc.getName());
