@@ -19,6 +19,7 @@ import cz.zcu.fav.kiv.jsim.ipc.JSimMessageBox;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import processors.Processor;
@@ -46,15 +47,7 @@ public class MicroSimulación {
         try {   
             simulation = new JSimSimulation("Simulador 1");
             box = new JSimMessageBox("Caja de mensajes compartida");
-            //Creación de los procesadores
-            //Processor procesador1 = new Processor("Procesador 1", simulation, box);
-            //Processor procesador2 = new Processor("Procesador 2", simulation, box);
-
-            //Creación de la tubería de comunicación
-            //ComunicationPipe pipe = new ComunicationPipe("pipe", simulation, procesador1, procesador2);
-            //procesador1.setPipe(pipe);
-            //procesador2.setPipe(pipe);
-            
+                        
             //Creación de los PEs
             GenericPE PE1 = new GenericPE(1, "PE1", "PE3", simulation);
             GenericPE PE2 = new GenericPE(2, "PE2", "PE3", simulation);
@@ -98,55 +91,10 @@ public class MicroSimulación {
             //Adapter adapter = new Adapter("Adaptador", simulation, procesador1, box);
             
             //Cargando la distribución por defecto de PEs en procesadores
-            setDefaultLoadDistribution(simulation, box);
-            
-            //Asignación de los PEs a los procesadores
-            /*
-            procesador1.getPe_list().put("Classifier", classifier);
-            procesador1.getPe_list().put("PE1", PE1);
-            procesador1.getPe_list().put("PE2", PE2);
-            procesador1.getPe_list().put("PE3", PE3);
-            procesador1.getPe_list().put("PE4", PE4);
-            procesador1.getPe_list().put("PE5", PE5);
-            procesador1.getPe_list().put("PE6", PE6);
-            procesador1.getPe_list().put("PE7", PE7);
-
-            procesador2.getPe_list().put("PE8", PE8);
-            procesador2.getPe_list().put("PE9", PE9);
-            procesador2.getPe_list().put("PE10", PE10);
-            procesador2.getPe_list().put("PE11", PE11);
-            procesador2.getPe_list().put("PE12", PE12);
-            procesador2.getPe_list().put("PE13", PE13);
-            procesador2.getPe_list().put("DataBase", PEDataBase);
-            procesador2.getPe_list().put("Notification", PENotification);
-            */
-            
-            //Creación de la tabla de ruteo
-            /*
-            HashMap<String, Processor> rt = new HashMap<>();
-            rt.put("classifier", procesador1);
-            rt.put("PE1", procesador1);
-            rt.put("PE2", procesador1);
-            rt.put("PE3", procesador1);
-            rt.put("PE4", procesador1);
-            rt.put("PE5", procesador1);
-            rt.put("PE6", procesador1);
-            rt.put("PE7", procesador1);
-            rt.put("PE8", procesador2);
-            rt.put("PE9", procesador2);
-            rt.put("PE10", procesador2);
-            rt.put("PE11", procesador2);
-            rt.put("PE12", procesador2);
-            rt.put("PE13", procesador2);
-            rt.put("DataBase", procesador2);
-            rt.put("Notification", procesador2);
-
-            RouteTable routeTable = new RouteTable(rt);
-
-            procesador1.setRouteTable(routeTable);
-            procesador2.setRouteTable(routeTable);
-            */
-            
+            //setDefaultLoadDistribution(simulation, box);
+            //setRoundRobinDistribution(simulation, box, 4);
+            setRandomDistribution(simulation, box, 4);
+                    
             //Creación de la simulación del modelo de movilidad con The ONE
             DTNSimTextUI oneSim = DTNSim.initTheOne();
             adapter.setOneSimulator(oneSim);
@@ -165,15 +113,6 @@ public class MicroSimulación {
                 System.out.println("ACTIVANDO EL "+proc.getName());
                 proc.activateNow();
             }
-            /*
-            System.out.println("ACTIVANDO EL PROCESADOR 1");
-            procesador1.activateNow();
-            System.out.println("ACTIVANDO EL PROCESADOR 2");
-            procesador2.activateNow();
-            */
-            //System.out.println("ACTIVANDO EL PIPE DE COMUNICACIÓN");
-            //pipe.activateNow();
-            
             
             while(simulation.step());
             //while(simulation.getCurrentTime() < 100.0);
@@ -184,10 +123,6 @@ public class MicroSimulación {
             for(Processor proc : processorsList){
                 simulation.message("Tiempo de uso del "+proc.getName()+": "+proc.getBusyTime());
             }
-            /*
-            simulation.message("Tiempo de uso del procesador 1: "+procesador1.getBusyTime());
-            simulation.message("Tiempo de uso del procesador 2: "+procesador2.getBusyTime());
-            */
             simulation.message("Cantidad de mensajes PE5: "+PE5.getCounter());
             simulation.message("Cantidad de mensajes PE6: "+PE6.getCounter());
             simulation.message("Cantidad de mensajes PE7: "+PE7.getCounter());
@@ -201,6 +136,54 @@ public class MicroSimulación {
             e.printComment(System.err);
         } finally {
             simulation.shutdown();
+        }
+    }
+    
+    public static void setRandomDistribution(JSimSimulation simulation, JSimMessageBox box, int cantProcesadores){
+        HashMap<String, Processor> rt = new HashMap<>();
+        Random random = new Random();
+        try {
+            for(int i = 0; i < cantProcesadores; i++){
+                processorsList.add(new Processor("Procesador "+(i+1), simulation, box));
+            }
+            for(AbstractPE pe : peList){
+                int proc = random.nextInt(cantProcesadores);
+                pe.setProcessor(processorsList.get(proc));
+                processorsList.get(proc).getPe_list().put(pe.getName(), pe);
+                rt.put(pe.getName(), processorsList.get(proc));
+            }
+            
+            RouteTable routeTable = new RouteTable(rt);
+            for(Processor proc : processorsList){
+                proc.setRouteTable(routeTable);
+            }
+            
+        } 
+        catch (JSimSimulationAlreadyTerminatedException | JSimInvalidParametersException | JSimTooManyProcessesException | JSimTooManyHeadsException ex) {
+            ex.printStackTrace(System.out);
+        }
+        
+    }
+    
+    public static void setRoundRobinDistribution(JSimSimulation simulation, JSimMessageBox box, int cantProcesadores){
+        HashMap<String, Processor> rt = new HashMap<>();
+        try {
+            for(int i = 0; i < cantProcesadores; i++){
+                processorsList.add(new Processor("Procesador "+(i+1), simulation, box));
+            }
+            for(int i = 0; i < peList.size(); i++){
+                peList.get(i).setProcessor(processorsList.get(i%cantProcesadores));               
+                processorsList.get(i%cantProcesadores).getPe_list().put(peList.get(i).getName(), peList.get(i));
+                rt.put(peList.get(i).getName(), processorsList.get(i%cantProcesadores));
+            }
+            
+            RouteTable routeTable = new RouteTable(rt);
+            for(Processor proc : processorsList){
+                proc.setRouteTable(routeTable);
+            }
+        } 
+        catch (JSimSimulationAlreadyTerminatedException | JSimInvalidParametersException | JSimTooManyProcessesException | JSimTooManyHeadsException ex) {
+            ex.printStackTrace(System.out);
         }
     }
     
