@@ -26,6 +26,10 @@ public class PECounter extends AbstractPE {
     public PECounter(int id, String nombre, String next_pe, Processor processor, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe, processor);
     }
+    
+    public PECounter(int id, String nombre, String next_pe, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
+        super(nombre, simulation, next_pe);
+    }
 
     public int getCounter() {
         return counter;

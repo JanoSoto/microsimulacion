@@ -32,6 +32,12 @@ public class LastPENotification extends AbstractPE {
         this.data_center_loc = new Coord(60.275420, 24.954759); // coordenada real del mapa de Helsinki
         this.counter = 0;
     }
+    
+    public LastPENotification(int id, String nombre, String next_pe, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
+        super(nombre, simulation, next_pe);
+        this.data_center_loc = new Coord(60.275420, 24.954759); // coordenada real del mapa de Helsinki
+        this.counter = 0;
+    }
 
     public DTNSimTextUI getOneSimulator() {
         return oneSimulator;

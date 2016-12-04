@@ -35,6 +35,12 @@ public class PE7 extends AbstractPE {
         this.PE8 = PE8;
         this.PE9 = PE9;
     }
+    
+    public PE7(int id, String nombre, String next_pe, GenericPE PE9, PECounter PE8, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
+        super(nombre, simulation, next_pe);
+        this.PE8 = PE8;
+        this.PE9 = PE9;
+    }
 
     public int getCounter() {
         return counter;

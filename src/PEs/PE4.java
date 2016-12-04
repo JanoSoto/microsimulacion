@@ -35,6 +35,13 @@ public class PE4 extends AbstractPE {
         this.PE6 = PE6;
         this.PE7 = PE7;
     }
+    
+    public PE4(int id, String nombre, String next_pe, PECounter PE5, PECounter PE6, PE7 PE7, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
+        super(nombre, simulation, next_pe);
+        this.PE5 = PE5;
+        this.PE6 = PE6;
+        this.PE7 = PE7;
+    }
 
     @Override
     public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {

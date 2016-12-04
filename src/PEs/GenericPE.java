@@ -25,6 +25,9 @@ public class GenericPE extends AbstractPE {
         super(nombre, simulation, next_pe, processor);
     }
     
+    public GenericPE(int id, String nombre, String next_pe, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
+        super(nombre, simulation, next_pe);
+    }    
     
     @Override
     public void sendMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {

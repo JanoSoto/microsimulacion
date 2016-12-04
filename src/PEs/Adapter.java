@@ -29,11 +29,9 @@ public class Adapter extends JSimProcess {
     private String name;
     private Random rdm;
     private JSimMessageBox box;
-    private Processor procesador1, procesador2;
     private DTNSimTextUI oneSimulator;
 
-    public Adapter(String name, JSimSimulation sim, Classifier clasificador, 
-                JSimMessageBox box, Processor procesador1, Processor procesador2)
+    public Adapter(String name, JSimSimulation sim, Classifier clasificador, JSimMessageBox box)
     //public Adapter(String name, JSimSimulation sim, Processor procesador, JSimMessageBox box)
             throws JSimSimulationAlreadyTerminatedException,
             JSimInvalidParametersException,
@@ -43,8 +41,6 @@ public class Adapter extends JSimProcess {
         //this.procesador = procesador;
         this.rdm = new Random();
         this.box = box;
-        this.procesador1 = procesador1;
-        this.procesador2 = procesador2;
         this.clasificador = clasificador;
     }
 

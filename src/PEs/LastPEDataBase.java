@@ -25,6 +25,11 @@ public class LastPEDataBase extends AbstractPE {
         super(nombre, simulation, next_pe, processor);
         this.counter = 0;
     }
+    
+    public LastPEDataBase(int id, String nombre, String next_pe, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
+        super(nombre, simulation, next_pe);
+        this.counter = 0;
+    }
 
     public int getCounter() {
         return counter;

@@ -24,6 +24,10 @@ public class Classifier extends AbstractPE {
     public Classifier(int id, String nombre, String next_pe, Processor processor, GenericPE PE1, GenericPE PE2, PE4 PE4, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
         super(nombre, simulation, next_pe, processor);
     }
+    
+    public Classifier(int id, String nombre, String next_pe, GenericPE PE1, GenericPE PE2, PE4 PE4, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
+        super(nombre, simulation, next_pe);
+    }
 
     @Override
     public void sendMessage(Token token) throws JSimSecurityException {

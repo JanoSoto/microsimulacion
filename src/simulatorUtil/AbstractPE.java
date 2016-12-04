@@ -29,6 +29,11 @@ public abstract class AbstractPE extends JSimProcess{
         this.next_pe = next_pe;
         this.processor = processor;
     }
+    
+    public AbstractPE(String nombre, JSimSimulation simulation, String next_pe) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
+        super(nombre, simulation);
+        this.next_pe = next_pe;
+    }
 
     public String getNext_pe() {
         return next_pe;
