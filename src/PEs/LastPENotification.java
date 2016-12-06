@@ -29,13 +29,13 @@ public class LastPENotification extends AbstractPE {
 
     public LastPENotification(int id, String nombre, String next_pe, Processor processor, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe, processor);
-        this.data_center_loc = new Coord(60.275420, 24.954759); // coordenada real del mapa de Helsinki
+        this.data_center_loc = new Coord(6000.275420, 2400.954759); // coordenada real del mapa de Helsinki
         this.counter = 0;
     }
     
     public LastPENotification(int id, String nombre, String next_pe, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe);
-        this.data_center_loc = new Coord(60.275420, 24.954759); // coordenada real del mapa de Helsinki
+        this.data_center_loc = new Coord(6000.275420, 2400.954759); // coordenada real del mapa de Helsinki
         this.counter = 0;
     }
 
@@ -97,8 +97,8 @@ public class LastPENotification extends AbstractPE {
      */
     public static double haversineDistance(Coord location1, Coord location2) {
         
-        //double R = 6372.8; // en kilometros
-        double R = 6371e3; // en metros
+        double R = 6372.8; // en kilometros
+        //double R = 6371e3; // en metros
         double dLat = Math.toRadians(location2.getX() - location1.getX());
         double dLon = Math.toRadians(location2.getY() - location1.getY());
  
@@ -121,7 +121,7 @@ public class LastPENotification extends AbstractPE {
         System.out.println("## Distancia desde el DataCenter: " + distancia);
         
         for(i=0; i<distancia ;i++) {
-            if(j==200) {
+            if(j==6000) {
                 antenas++;
                 j=0;
             }
