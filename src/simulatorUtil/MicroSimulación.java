@@ -124,15 +124,17 @@ public class MicroSimulación {
             double finalTime = simulation.getCurrentTime();
 
             simulation.message("Tiempo total simulacion (inicial: " + initialTime + ", final: " + finalTime + "): " + (finalTime - initialTime));
+            
             for (Processor proc : processorsList) {
                 simulation.message("Tiempo de uso del " + proc.getName() + ": " + proc.getBusyTime());
+                simulation.message("Utilizacion del "+proc.getName()+": "+(proc.getBusyTime()/finalTime));
+                simulation.message("[Estadistica de colas] Cola: "+proc.getName()+" Lw = " + proc.getQueue().getLw() + ", Tw = " + proc.getQueue().getTw() + ", Tw all = " + proc.getQueue().getTwForAllLinks());
             }
-            simulation.message("Cantidad de mensajes PE5: " + PE5.getCounter());
-            simulation.message("Cantidad de mensajes PE6: " + PE6.getCounter());
-            simulation.message("Cantidad de mensajes PE7: " + PE7.getCounter());
-            simulation.message("Cantidad de mensajes PE8: " + PE8.getCounter());
+            
+            simulation.message("Cantidad de tokens entrantes: "+classifier.getCounter());
             simulation.message("Cantidad de mensajes PEDataBase: " + PEDataBase.getCounter());
             simulation.message("Cantidad de mensajes PENotification: " + PENotification.getCounter());
+            
 
         } catch (JSimException e) {
             e.printStackTrace();

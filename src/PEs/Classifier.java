@@ -21,14 +21,26 @@ import simulatorUtil.Token;
  */
 public class Classifier extends AbstractPE {
     
+    private int counter;
+    
     public Classifier(int id, String nombre, String next_pe, Processor processor, GenericPE PE1, GenericPE PE2, PE4 PE4, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
         super(nombre, simulation, next_pe, processor);
+        this.counter = 0;
     }
     
     public Classifier(int id, String nombre, String next_pe, GenericPE PE1, GenericPE PE2, PE4 PE4, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
         super(nombre, simulation, next_pe);
+        this.counter = 0;
     }
 
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int count) {
+        this.counter = count;
+    }
+ 
     @Override
     public void sendMessage(Token token) throws JSimSecurityException {
         switch (token.getTipo()) {
@@ -72,6 +84,7 @@ public class Classifier extends AbstractPE {
     
     public void receiveMessage(Token token) throws JSimSecurityException {
         //System.out.println("Soy el clasificador y recibo un mensaje");
+        this.counter++;
         this.sendMessage(token);
     }
     
