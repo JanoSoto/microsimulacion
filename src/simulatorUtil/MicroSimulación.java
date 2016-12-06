@@ -247,54 +247,70 @@ public class MicroSimulación {
             // Proc 1 con Clasificador
             processorsList.get(0).getPe_list().put(peList.get(0).getName(), peList.get(0));
             peList.get(0).setProcessor(processorsList.get(0));
+            rt.put(peList.get(0).getName(), processorsList.get(0));
             // Proc 1 con PE1
             processorsList.get(0).getPe_list().put(peList.get(1).getName(), peList.get(1));
             peList.get(1).setProcessor(processorsList.get(0));
+            rt.put(peList.get(1).getName(), processorsList.get(0));
             // Proc 1 con PE2
             processorsList.get(0).getPe_list().put(peList.get(2).getName(), peList.get(2));
             peList.get(2).setProcessor(processorsList.get(0));
+            rt.put(peList.get(2).getName(), processorsList.get(0));
             // Proc 1 con PE3
             processorsList.get(0).getPe_list().put(peList.get(3).getName(), peList.get(3));
             peList.get(3).setProcessor(processorsList.get(0));
+            rt.put(peList.get(3).getName(), processorsList.get(0));
 
             // Proc 2 con PE4
             processorsList.get(1).getPe_list().put(peList.get(4).getName(), peList.get(4));
             peList.get(4).setProcessor(processorsList.get(1));
+            rt.put(peList.get(4).getName(), processorsList.get(1));
             // Proc 2 con PE5
             processorsList.get(1).getPe_list().put(peList.get(5).getName(), peList.get(5));
             peList.get(5).setProcessor(processorsList.get(1));
+            rt.put(peList.get(5).getName(), processorsList.get(1));
             // Proc 2 con PE6
             processorsList.get(1).getPe_list().put(peList.get(6).getName(), peList.get(6));
             peList.get(6).setProcessor(processorsList.get(1));
+            rt.put(peList.get(6).getName(), processorsList.get(1));
             // Proc 2 con PE7
             processorsList.get(1).getPe_list().put(peList.get(7).getName(), peList.get(7));
             peList.get(7).setProcessor(processorsList.get(1));
+            rt.put(peList.get(7).getName(), processorsList.get(1));
 
             // Proc 3 con PE8
             processorsList.get(2).getPe_list().put(peList.get(8).getName(), peList.get(8));
             peList.get(8).setProcessor(processorsList.get(2));
+            rt.put(peList.get(8).getName(), processorsList.get(2));
             // Proc 3 con PE9
             processorsList.get(2).getPe_list().put(peList.get(9).getName(), peList.get(9));
             peList.get(9).setProcessor(processorsList.get(2));
+            rt.put(peList.get(9).getName(), processorsList.get(2));
             // Proc 3 con PE10
             processorsList.get(2).getPe_list().put(peList.get(10).getName(), peList.get(10));
             peList.get(10).setProcessor(processorsList.get(2));
+            rt.put(peList.get(10).getName(), processorsList.get(2));
             // Proc 3 con PE11
             processorsList.get(2).getPe_list().put(peList.get(11).getName(), peList.get(11));
             peList.get(11).setProcessor(processorsList.get(2));
+            rt.put(peList.get(11).getName(), processorsList.get(2));
 
             // Proc 4 con PE12
             processorsList.get(3).getPe_list().put(peList.get(12).getName(), peList.get(12));
             peList.get(12).setProcessor(processorsList.get(3));
+            rt.put(peList.get(12).getName(), processorsList.get(3));
             // Proc 4 con PE13
             processorsList.get(3).getPe_list().put(peList.get(13).getName(), peList.get(13));
             peList.get(13).setProcessor(processorsList.get(3));
+            rt.put(peList.get(13).getName(), processorsList.get(3));
             // Proc 4 con Database
             processorsList.get(3).getPe_list().put(peList.get(14).getName(), peList.get(14));
             peList.get(14).setProcessor(processorsList.get(3));
+            rt.put(peList.get(14).getName(), processorsList.get(3));
             // Proc 4 con Notification
             processorsList.get(3).getPe_list().put(peList.get(15).getName(), peList.get(15));
             peList.get(15).setProcessor(processorsList.get(3));
+            rt.put(peList.get(15).getName(), processorsList.get(3));
 
             int size = peList.size();
             for (int i = 0; i < size; i++) {
