@@ -49,6 +49,9 @@ public class MicroSimulación {
             simulation = new JSimSimulation("Simulador 1");
             box = new JSimMessageBox("Caja de mensajes compartida");
 
+            //Creación del objeto que simula la red 4G
+            Antenna network = new Antenna("Network", simulation);
+            
             //Creación de los PEs
             GenericPE PE1 = new GenericPE(1, "PE1", "PE3", simulation);
             GenericPE PE2 = new GenericPE(2, "PE2", "PE3", simulation);
@@ -64,7 +67,7 @@ public class MicroSimulación {
             GenericPE PE12 = new GenericPE(12, "PE12", "PE13", simulation);
             GenericPE PE13 = new GenericPE(13, "PE13", "Notification", simulation);
             LastPEDataBase PEDataBase = new LastPEDataBase(14, "DataBase", "", simulation);
-            LastPENotification PENotification = new LastPENotification(15, "Notification", "", simulation);
+            LastPENotification PENotification = new LastPENotification(15, "Notification", "", simulation, network);
 
             //Guardado de PEs en la lista
             peList.add(PE1);
@@ -91,7 +94,7 @@ public class MicroSimulación {
             Adapter adapter = new Adapter("Adaptador", simulation, classifier, box);
             //Adapter adapter = new Adapter("Adaptador", simulation, procesador1, box);
 
-            //Cargando la distribución por defecto de PEs en procesadores
+            //Cargando la distribución de PEs en procesadores
             //setDefaultLoadDistribution(simulation, box);
             //setRoundRobinDistribution(simulation, box, 4);
             setRandomDistribution(simulation, box, 4);

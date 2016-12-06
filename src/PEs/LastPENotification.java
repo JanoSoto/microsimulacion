@@ -7,6 +7,7 @@ package PEs;
 
 import core.Coord;
 import cz.zcu.fav.kiv.jsim.JSimInvalidParametersException;
+import cz.zcu.fav.kiv.jsim.JSimLink;
 import cz.zcu.fav.kiv.jsim.JSimSecurityException;
 import cz.zcu.fav.kiv.jsim.JSimSimulation;
 import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
@@ -14,6 +15,7 @@ import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
 import java.util.Random;
 import processors.Processor;
 import simulatorUtil.AbstractPE;
+import simulatorUtil.Antenna;
 import simulatorUtil.Token;
 import ui.DTNSimTextUI;
 
@@ -26,6 +28,7 @@ public class LastPENotification extends AbstractPE {
     private int counter;
     private DTNSimTextUI oneSimulator;
     private Coord data_center_loc;      //Coordenada del DataCenter en Helsinski
+    private Antenna antenna;
 
     public LastPENotification(int id, String nombre, String next_pe, Processor processor, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe, processor);
@@ -33,10 +36,19 @@ public class LastPENotification extends AbstractPE {
         this.counter = 0;
     }
     
-    public LastPENotification(int id, String nombre, String next_pe, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
+    public LastPENotification(int id, String nombre, String next_pe, JSimSimulation simulation, Antenna antena) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe);
         this.data_center_loc = new Coord(6000.275420, 2400.954759); // coordenada real del mapa de Helsinki
         this.counter = 0;
+        this.antenna = antena;
+    }
+
+    public Antenna getAntenna() {
+        return antenna;
+    }
+
+    public void setAntenna(Antenna antenna) {
+        this.antenna = antenna;
     }
 
     public DTNSimTextUI getOneSimulator() {
@@ -113,9 +125,9 @@ public class LastPENotification extends AbstractPE {
      */
     public void sendThroughNetwork(Coord location) throws JSimSecurityException, JSimInvalidParametersException {
         
-        int i,      // iterador for
-            j=0,    // iterador metros antenas
-            antenas=1; // cantidad de antenas
+        int i,          // iterador for
+            j=0,        // iterador metros antenas
+            antenas=1;  // cantidad de antenas
         double distancia = haversineDistance(getDataCenterLoc(), location);
         
         System.out.println("## Distancia desde el DataCenter: " + distancia);
@@ -128,8 +140,12 @@ public class LastPENotification extends AbstractPE {
             j++;
         }
         
-        // hold por cantidad de antenas
-//        hold(antenas*0.3);
+        JSimLink link = new JSimLink(antenas);
+        if(this.antenna.isIdle()){
+            System.out.println("Despertando a la antena");
+            this.antenna.activateNow();
+        }
+        link.into(this.antenna.getQueue());
         
         System.out.println("## Cantidad de antenas para llegar al DataCenter: " + antenas);
     }
