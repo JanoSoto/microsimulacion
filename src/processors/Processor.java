@@ -36,6 +36,7 @@ public class Processor extends JSimProcess {
     private JSimMessageBox box;
     private ComunicationPipe pipe;
     private double busyTime;
+    private int counter;
 
     public Processor(String name, JSimSimulation simulation, JSimMessageBox box) 
             throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException, JSimTooManyHeadsException {
@@ -45,6 +46,15 @@ public class Processor extends JSimProcess {
         this.routeTable = null;
         this.box = box;
         this.busyTime = 0.0;
+        this.counter = 0;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 
     public double getBusyTime() {
@@ -99,17 +109,23 @@ public class Processor extends JSimProcess {
             message("SOY UN PROCESADOR " + this.getName() + " Y ESTOY VIVO");
             int count = 0;
             double initialTime = this.myParent.getCurrentTime();
+            double peTime;
             //this.myParent.message("**** Tiempo inicial del "+this.getName()+": "+initialTime);
             while (true) {
                 if (!queue.empty()) {
+                    this.counter++;
                     
                     link = queue.first();
                     Token token = (Token) link.getData();
                     link.out();
-    
+                    
+                    peTime = this.myParent.getCurrentTime();
+                    
                     //Hace hold con una exponencial negativa para simular el tiempo de procesamiento
                     hold(JSimSystem.negExp(token.getLambda()));
-
+                    
+                    peTime = this.myParent.getCurrentTime() - peTime;
+                    pe_list.get(token.getSender()).addToServiceTime(peTime);
                     //Envía el mensaje al siguiente PE. Si no lo encuentra, lo envía al otro procesador.
                     if (pe_list.containsKey(token.getPosting())) {
                         this.myParent.message("-- " + this.getName() + ": Enviando token desde " + token.getSender() + " hacia " + token.getPosting() + "[" + this.getName() + "]");

@@ -25,7 +25,6 @@ import ui.DTNSimTextUI;
  */
 public class LastPENotification extends AbstractPE {
 
-    private int counter;
     private DTNSimTextUI oneSimulator;
     private Coord data_center_loc;      //Coordenada del DataCenter en Helsinski
     private Antenna antenna;
@@ -33,13 +32,11 @@ public class LastPENotification extends AbstractPE {
     public LastPENotification(int id, String nombre, String next_pe, Processor processor, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe, processor);
         this.data_center_loc = new Coord(6000.275420, 2400.954759); // coordenada real del mapa de Helsinki
-        this.counter = 0;
     }
     
     public LastPENotification(int id, String nombre, String next_pe, JSimSimulation simulation, Antenna antena) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe);
         this.data_center_loc = new Coord(6000.275420, 2400.954759); // coordenada real del mapa de Helsinki
-        this.counter = 0;
         this.antenna = antena;
     }
 
@@ -59,16 +56,9 @@ public class LastPENotification extends AbstractPE {
         this.oneSimulator = oneSimulator;
     }
 
-    public int getCounter() {
-        return counter;
-    }
     
     public Coord getDataCenterLoc() {
         return data_center_loc;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
     }
 
     @Override
@@ -79,9 +69,8 @@ public class LastPENotification extends AbstractPE {
     @Override
     public void receiveMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
         System.out.println("Llega el siguiente token al PE de notificacion: " + token.getTipo());
-        counter++;
+        this.addToCounter();
         token.setT_end(this.myParent.getCurrentTime());
-        System.out.println("Han llegado "+counter+" al PE de notificacion");
         System.out.println("Tiempo de inicio: " + token.getT_init());
         System.out.println("Tiempo de fin: " + token.getT_end());
         
