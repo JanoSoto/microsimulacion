@@ -111,15 +111,17 @@ public class MicroSimulación {
             System.out.println("Inicio de la simulacion");
             double initialTime = simulation.getCurrentTime();
 
-            System.out.println("MAIN ACTIVA EL ADAPTER");
+            //Activación del adapter
+            System.out.println("ACTIVANDO EL ADAPTER");
             adapter.activateNow();
+            //Activación de los procesadores
             for (Processor proc : processorsList) {
                 System.out.println("ACTIVANDO EL " + proc.getName());
                 proc.activateNow();
             }
 
             while (simulation.step());
-            //while(simulation.getCurrentTime() < 100.0);
+            //while(simulation.getCurrentTime() < 10000.0);
 
             double finalTime = simulation.getCurrentTime();
 
