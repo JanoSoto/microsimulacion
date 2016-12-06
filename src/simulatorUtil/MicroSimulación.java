@@ -127,9 +127,10 @@ public class MicroSimulación {
             
             for (Processor proc : processorsList) {
                 simulation.message("Tiempo de uso del " + proc.getName() + ": " + proc.getBusyTime());
-                simulation.message("Utilizacion del "+proc.getName()+": "+(proc.getBusyTime()/finalTime));
                 simulation.message("[Estadistica de colas] Cola: "+proc.getName()+" Lw = " + proc.getQueue().getLw() + ", Tw = " + proc.getQueue().getTw() + ", Tw all = " + proc.getQueue().getTwForAllLinks());
             }
+            
+            simulation.message("[Estadistica de colas - Red] Cola: "+network.getName()+" Lw = " + network.getQueue().getLw() + ", Tw = " + network.getQueue().getTw() + ", Tw all = " + network.getQueue().getTwForAllLinks());
             
             simulation.message("Cantidad de tokens entrantes: "+classifier.getCounter());
             simulation.message("Cantidad de mensajes PEDataBase: " + PEDataBase.getCounter());
