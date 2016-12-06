@@ -21,7 +21,6 @@ import simulatorUtil.Token;
  */
 public class PECounter extends AbstractPE {
 
-    private int counter;
 
     public PECounter(int id, String nombre, String next_pe, Processor processor, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe, processor);
@@ -29,14 +28,6 @@ public class PECounter extends AbstractPE {
     
     public PECounter(int id, String nombre, String next_pe, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe);
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
     }
 
     @Override
@@ -52,8 +43,7 @@ public class PECounter extends AbstractPE {
     @Override
     public void receiveMessage(Token token) {
         System.out.println("Soy el "+ this.getName() + " y me ha llegado el siguiente token: "+token.getTipo());
-        counter++;
-        System.out.println("Han llegado "+counter+" al "+this.getName());
+        this.addToCounter();
 
     }
 

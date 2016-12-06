@@ -23,18 +23,48 @@ public abstract class AbstractPE extends JSimProcess{
     private String next_pe;
     private Processor processor;
     private Token token;
-
+    private int counter;
+    private double serviceTime;
+    
     public AbstractPE(String nombre, JSimSimulation simulation, String next_pe, Processor processor) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
         super(nombre, simulation);
         this.next_pe = next_pe;
         this.processor = processor;
+        this.counter = 0;
+        this.serviceTime = 0.0;
     }
     
     public AbstractPE(String nombre, JSimSimulation simulation, String next_pe) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException {
         super(nombre, simulation);
         this.next_pe = next_pe;
+        this.counter = 0;
+        this.serviceTime = 0.0;
     }
 
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+    
+    public void addToCounter(){
+        this.counter++;
+    }
+
+    public double getServiceTime() {
+        return serviceTime;
+    }
+
+    public void setServiceTime(double serviceTime) {
+        this.serviceTime = serviceTime;
+    }
+    
+    public void addToServiceTime(double time){
+        this.serviceTime += time;
+    }
+    
     public String getNext_pe() {
         return next_pe;
     }

@@ -25,7 +25,6 @@ import simulatorUtil.Token;
  */
 public class PE7 extends AbstractPE {
 
-    private int counter;
     private final GenericPE PE9;
     private final PECounter PE8;
     private Random random;
@@ -40,14 +39,6 @@ public class PE7 extends AbstractPE {
         super(nombre, simulation, next_pe);
         this.PE8 = PE8;
         this.PE9 = PE9;
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
     }
 
     @Override
@@ -83,7 +74,7 @@ public class PE7 extends AbstractPE {
     @Override
     public void receiveMessage(Token token) {
         //Recibe desde PE4
-        counter++;
+        this.addToCounter();
         try {
             sendMessage(token);
         } catch (JSimSecurityException | JSimInvalidParametersException ex) {

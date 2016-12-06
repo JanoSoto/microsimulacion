@@ -42,6 +42,7 @@ public class GenericPE extends AbstractPE {
 
     @Override
     public void receiveMessage(Token token) throws JSimSecurityException, JSimInvalidParametersException {
+        this.addToCounter();
         sendMessage(token);     
     }
 

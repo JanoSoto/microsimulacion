@@ -19,24 +19,12 @@ import simulatorUtil.Token;
  */
 public class LastPEDataBase extends AbstractPE {
 
-    private int counter;
-    
     public LastPEDataBase(int id, String nombre, String next_pe, Processor processor, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe, processor);
-        this.counter = 0;
     }
     
     public LastPEDataBase(int id, String nombre, String next_pe, JSimSimulation simulation) throws JSimSimulationAlreadyTerminatedException, JSimInvalidParametersException, JSimTooManyProcessesException{
         super(nombre, simulation, next_pe);
-        this.counter = 0;
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
     }
 
     @Override
@@ -47,7 +35,7 @@ public class LastPEDataBase extends AbstractPE {
     @Override
     public void receiveMessage(Token token) {
         System.out.println("Llega el siguiente token a la DB: " + token.getTipo() + "desde " + token.getSender());
-        counter++;
+        this.addToCounter();
         token.setT_end(this.myParent.getCurrentTime());
         //System.out.println("Han llegado "+counter+" a la DB");
         //System.out.println("Tiempo de inicio: " + token.getT_init());

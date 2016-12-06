@@ -85,6 +85,7 @@ public class PE4 extends AbstractPE {
     @Override
     public void receiveMessage(Token token) {
         try {
+            this.addToCounter();
             sendMessage(token);
         } catch (JSimSecurityException | JSimInvalidParametersException ex) {
             ex.printStackTrace(System.out);
