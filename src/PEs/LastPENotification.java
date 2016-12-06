@@ -62,8 +62,11 @@ public class LastPENotification extends AbstractPE {
     }
 
     @Override
-    public void sendMessage(Token token) {
-
+    public void sendMessage(Token token) throws JSimSecurityException {
+        token.setSender(this.getName());
+        token.setPosting("final");
+        JSimLink link = new JSimLink(token);
+        link.into(this.getProcessor().getQueue());
     }
 
     @Override
@@ -78,6 +81,7 @@ public class LastPENotification extends AbstractPE {
         Coord location = getNodeLocation();
         System.out.println("## LAST PE: ("+location.getX()+", "+location.getY()+")");
         
+        sendMessage(token);
         sendThroughNetwork(location);
     }    
     

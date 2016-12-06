@@ -6,6 +6,8 @@
 package PEs;
 
 import cz.zcu.fav.kiv.jsim.JSimInvalidParametersException;
+import cz.zcu.fav.kiv.jsim.JSimLink;
+import cz.zcu.fav.kiv.jsim.JSimSecurityException;
 import cz.zcu.fav.kiv.jsim.JSimSimulation;
 import cz.zcu.fav.kiv.jsim.JSimSimulationAlreadyTerminatedException;
 import cz.zcu.fav.kiv.jsim.JSimTooManyProcessesException;
@@ -28,18 +30,19 @@ public class LastPEDataBase extends AbstractPE {
     }
 
     @Override
-    public void sendMessage(Token token) {
-
+    public void sendMessage(Token token) throws JSimSecurityException {
+        token.setSender(this.getName());
+        token.setPosting("final");
+        JSimLink link = new JSimLink(token);
+        link.into(this.getProcessor().getQueue());
     }
 
     @Override
-    public void receiveMessage(Token token) {
+    public void receiveMessage(Token token) throws JSimSecurityException {
         System.out.println("Llega el siguiente token a la DB: " + token.getTipo() + "desde " + token.getSender());
         this.addToCounter();
         token.setT_end(this.myParent.getCurrentTime());
-        //System.out.println("Han llegado "+counter+" a la DB");
-        //System.out.println("Tiempo de inicio: " + token.getT_init());
-        //System.out.println("Tiempo de fin: " + token.getT_end());
+        sendMessage(token);
     }
 
 }
